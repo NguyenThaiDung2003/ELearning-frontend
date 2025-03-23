@@ -1,0 +1,23 @@
+Danh sách các trang trong hệ thống khóa học
+- Trang danh sách khóa học (/courses)
+    Hiển thị danh sách các khóa học có thể đăng ký
+    Bộ lọc theo danh mục, giảng viên, mức độ khó
+    Nút "Đăng ký khóa học"
+
+- Trang chi tiết khóa học (/courses/:id)
+    Hiển thị thông tin chi tiết về khóa học (tên, mô tả, nội dung)
+    Danh sách bài học trong khóa
+    Thông tin giảng viên
+    Nút "Bắt đầu học"
+
+- Trang học bài giảng (/courses/:id/lesson/:lessonId)
+    Video bài giảng
+    Tài liệu học tập (PDF, Slide)
+    Ghi chú cá nhân
+    Nút "Tiếp tục học"
+
+- Trang làm bài kiểm tra (/courses/:id/quiz/:quizId)
+    Hiển thị câu hỏi trắc nghiệm
+    Bộ đếm thời gian
+    Nút "Nộp bài"
+

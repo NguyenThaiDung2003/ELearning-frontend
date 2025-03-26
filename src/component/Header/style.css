@@ -70,6 +70,7 @@
   .login-btn {
     background: linear-gradient(to right, #ff7b00, #ff4f00);
     color: white;
+    width: 80px;
     padding: 8px 16px;
     border-radius: 999px;
     text-decoration: none;

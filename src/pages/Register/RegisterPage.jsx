@@ -6,7 +6,7 @@ import Footer from "../../component/Footer/Footer";
 import "./style.css"; 
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { registerUser } from "../../redux/apiRequest";
+import { registerUser } from "../../api/apiRequest";
 
 
 const RegisterPage = () => {

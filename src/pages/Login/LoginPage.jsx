@@ -5,7 +5,7 @@ import Header from "../../component/Header/Header";
 import Footer from "../../component/Footer/Footer";
 import "./style.css"; 
 import { useDispatch } from "react-redux";
-import { loginUser } from "../../redux/apiRequest";
+import { loginUser } from "../../api/apiRequest";
 
 const LoginPage = () => {
   const [username, setUsername] = useState("");

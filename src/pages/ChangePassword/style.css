@@ -1,3 +1,4 @@
+
 .wrapper {
     display: flex;
     justify-content: center;
@@ -8,7 +9,7 @@
     display: flex;
     justify-content: center;
     margin: 0px ;
-    padding: 0;
+    padding: 0 ;
     border-radius: 12px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     font-family: "Segoe UI", sans-serif;
@@ -42,7 +43,21 @@
     padding: 10px 0;
   }
   
-.user-profile-title {
+
+/* Change Password *******************************/
+
+.password-change-container {
+    display: flex;
+    justify-content: center;
+    margin: 0px;
+    padding: 24px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    font-family: "Segoe UI", sans-serif;
+}
+
+
+.password-change-header {
     font-size: 28px;
     font-weight: bold;
     margin-bottom: 32px;
@@ -50,7 +65,7 @@
     color: #ffffff;
 }
 
-.user-profile-content {
+.password-change-container {
     display: flex;
     flex-direction: column;
     min-width: 60%;
@@ -59,106 +74,99 @@
 }
 
 @media (min-width: 768px) {
-    .user-profile-content {
+    .password-change-container {
         min-width: none;
         flex-direction: row;
         align-items: flex-start;
+    }
+    .user-profile-container{
         width: 70%;
     }
 }
 
-.user-profile-left {
+.password-change-left {
     display: flex;
     flex-direction: column;
     align-items: center;
     flex: 1;
 }
 
-.user-avatar,.user-icon-fallback {
+.password-change-icon-wrapper {
     width: 160px;
     height: 160px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     border-radius: 50%;
-    object-fit: cover;
+    background-color: #2196F3;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    margin-bottom: 16px;
 }
 
-.user-username {
+.password-change-icon {
+    font-size: 80px;
+    color: white;
+}
+
+.password-change-title {
     font-size: 20px;
     font-weight: 600;
     color: #d8d8d8;
+    margin-top: 10px;
 }
 
-.user-profile-right {
+.password-change-right {
     flex: 2;
     display: flex;
     flex-direction: column;
     gap: 16px;
 }
 
-.info-row {
+.input-row {
     display: flex;
     gap: 12px;
     font-size: 16px;
 }
 
-.info-label {
-    width: 120px;
+.input-label {
+    width: 180px;
     font-weight: 500;
     color: #ffffff;
-    line-height: 40px;
+    line-height: 56px;
     text-align: left;
 }
 
-.info-value {
-    color: #e0e0e0;
-    line-height: 40px;
-}
-
-.info-empty {
-    color: #949494;
-    font-style: italic;
-}
-
-.loading-text {
-    text-align: center;
-    color: #888;
-    font-style: italic;
-}
-
-.edit-btn, .save-btn, .cancel-btn {
-    margin-top: 20px;
-    margin-right: 10px;
-    padding: 10px 20px;
-    font-size: 16px;
-    cursor: pointer;
-}
-
-.save-btn {
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 5px;
-}
-
-.cancel-btn {
-    background-color: #f44336;
-    color: white;
-    border: none;
-    border-radius: 5px;
-}
-
-.edit-btn {
-    background-color: #2196F3;
-    color: white;
-    border: none;
-    border-radius: 5px;
-}
-
-.info-input {
+.input-field {
     flex: 1;
     padding: 8px;
     font-size: 16px;
     border: 1px solid #ccc;
     border-radius: 5px;
+}
+
+.action-buttons {
+    margin-top: 20px;
+}
+
+.submit-btn {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.submit-btn:hover {
+    background-color: #45a049;
+}
+
+.error-message, .success-message {
+    font-size: 14px;
+    color: red;
+    margin-top: 10px;
+}
+
+.success-message {
+    color: green;
 }

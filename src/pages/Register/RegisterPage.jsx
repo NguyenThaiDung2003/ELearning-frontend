@@ -26,7 +26,7 @@ const RegisterPage = () => {
       return;
     }
     const newUser = {
-      username: username,
+      userName: username,
       email: email,
       password: password,
     };

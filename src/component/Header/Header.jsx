@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 import { axiosJWT } from "../../api/axiosJWT";
 
 const Header = () => {
-  const user = useSelector((state) => state.auth.login.currentUser); 
+  const user = useSelector((state) => state.auth.login.currentUser?.user); 
   const [showDropdown, setShowDropdown] = useState(false);
   const [showNotification, setShowNotification] = useState(false);
   const dropdownRef = useRef(null);
@@ -90,7 +90,7 @@ const Header = () => {
               <div className={`dropdown ${showDropdown ? "show" : ""}`}>
                 <div className="dropdown-header">
                   <FaUserCircle className="dropdown-icon" />
-                  <span className="dropdown-username">{user.username}</span>
+                  <span className="dropdown-username">{user.userName}</span>
                 </div>
                 <hr />
                 <Link to="/profile">Hồ sơ</Link>

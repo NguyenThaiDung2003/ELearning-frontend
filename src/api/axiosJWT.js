@@ -8,7 +8,7 @@ let axiosJWT = axios.create();
 
 const refreshToken = async () => {
     try {
-        const res = await axios.post(`${BASE_URL}/refresh`, {}, {  
+        const res = await axios.post(`${BASE_URL}/api/user/refresh-token`, {}, {  
             withCredentials: true,  
         });
         return res.data;

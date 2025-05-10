@@ -4,7 +4,9 @@ import LoginPage from "../pages/Login/LoginPage.jsx";
 import RegisterPage from "../pages/Register/RegisterPage.jsx";
 import ProfilePage from "../pages/ProfilePage/ProfilePage.jsx";
 import ChangePassword from "../pages/ChangePassword/ChangePassword.jsx";
-import ForgotPasswordPage from "../pages/ForgotPassword/ForgotPasswordPage.jsx"
+import ForgotPasswordPage from "../pages/ForgotPassword/ForgotPasswordPage.jsx";
+import AdminDashboard from "../pages/AdminDashboard/AdminDashboard.jsx";
+
 const AppRoutes = () => {
   return (
     <Router>
@@ -15,6 +17,7 @@ const AppRoutes = () => {
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/change-password" element={<ChangePassword />} />
         <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+        <Route path="/admin" element={<AdminDashboard />} />
         {/* Thêm các route khác ở đây */}
       </Routes>
     </Router>

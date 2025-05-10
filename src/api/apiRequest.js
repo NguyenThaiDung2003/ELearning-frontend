@@ -7,7 +7,7 @@ const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 export const loginUser = async (user, dispatch, navigate) => {
     dispatch(loginStart()); 
     try {
-        const res = await axios.post(`${BASE_URL}/login`, user, { 
+        const res = await axios.post(`${BASE_URL}/api/user/login`, user, { 
             withCredentials: true 
         }); 
         dispatch(loginSuccess(res.data)); 
@@ -30,7 +30,7 @@ export const loginUser = async (user, dispatch, navigate) => {
 export const registerUser = async (user, dispatch, navigate) => {
     dispatch(registerStart()); 
     try {
-        await axios.post(`${BASE_URL}/register`, user); 
+        await axios.post(`${BASE_URL}/api/user/register`, user); 
         dispatch(registerSuccess()); 
         alert(" Đăng ký thành công!");//test
         navigate("/login"); 
@@ -55,9 +55,9 @@ export const logOut = async (dispatch,navigate) => {
         const user = store.getState().auth.login?.currentUser;
         if (!user) throw new Error("User not logged in");
 
-        await axiosJWT.post(`${BASE_URL}/logout`,{}, {
+        await axiosJWT.post(`${BASE_URL}/api/user/logout`,{}, {
             headers: {
-                Token: `Bearer ${user?.accessToken}`,
+                Authorization: `Bearer ${user?.accessToken}`,
             },
         });
         dispatch(logoutSuccess());
@@ -72,9 +72,9 @@ export const getUserProfile = async () => {
         const user = store.getState().auth.login?.currentUser;
         if (!user) throw new Error("User not logged in");
 
-        const res = await axiosJWT.get(`${BASE_URL}/profile`, {
+        const res = await axiosJWT.get(`${BASE_URL}/api/user/profile`, {
             headers: {
-                Token: `Bearer ${user?.accessToken}`,
+                Authorization: `Bearer ${user?.accessToken}`,
             },
         });
 
@@ -92,9 +92,9 @@ export const updateUserProfile = async (profileData) => {
         const user = store.getState().auth.login?.currentUser;
         if (!user) throw new Error("User not logged in");
         
-        const res = await axiosJWT.put(`${BASE_URL}/profile`, profileData, {
+        const res = await axiosJWT.put(`${BASE_URL}/api/user/update`, profileData, {
             headers: {
-                Token: `Bearer ${user?.accessToken}`,
+                Authorization: `Bearer ${user?.accessToken}`,
             },
         });
         return res.data;
@@ -103,3 +103,51 @@ export const updateUserProfile = async (profileData) => {
         throw err;
     }
 };
+
+export const changePassword = async (data) => {
+    try {
+        const user = store.getState().auth.login?.currentUser;  
+        if (!user)   throw new Error("User not logged in");
+    
+        const res = await axios.patch(`${BASE_URL}/api/user/change-password`, data, {
+            headers: {
+                Authorization: `Bearer ${user.accessToken}`,  
+            },
+            withCredentials: true,
+        });
+
+        return res.data;
+    } catch (err) {
+        console.error("Change password error:", err.response?.data || err.message);
+        throw err.response?.data || { message: "Đã có lỗi xảy ra" };
+    }
+};
+
+export const requestForgotPassword = async (email) => {
+    try {
+      const response = await axios.post(`${BASE_URL}/api/user/forgot-password/${email}`);
+      return response.data;
+    } catch (error) {
+      throw error.response?.data?.message || "Có lỗi xảy ra khi gửi yêu cầu!";
+    }
+  };
+  
+  // Xác minh OTP
+  export const verifyOTP = async (email, otp) => {
+    try {
+      const response = await axios.post(`${BASE_URL}/api/user/verify-reset-password-token/${email}`, { OTP: otp });
+      return response.data;
+    } catch (error) {
+      throw error.response?.data?.message || "OTP không hợp lệ!";
+    }
+  };
+  
+  // Đặt lại mật khẩu mới
+  export const resetPassword = async (email, otp, password) => {
+    try {
+      const response = await axios.patch(`${BASE_URL}/api/user/reset-password`, { email, verify_code: otp, password });
+      return response.data;
+    } catch (error) {
+      throw error.response?.data?.message || "Không thể đặt lại mật khẩu!";
+    }
+  };

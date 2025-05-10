@@ -17,7 +17,7 @@ const LoginPage = () => {
   const handleLogin = (e) => {
     e.preventDefault();
     const newUser = {
-      username: username,
+      userName: username,
       password: password,
     };
     loginUser(newUser, dispatch, navigate);
@@ -57,10 +57,12 @@ const LoginPage = () => {
                 {showPassword ? <FaEyeSlash /> : <FaEye />}
               </button>
             </div>
-
             <button type="submit" className="login-button">
               Đăng nhập
             </button>
+            <p className="forgot-password">
+              <Link to="/forgot-password">Quên mật khẩu?</Link>
+            </p>
           </form>
 
           <p className="register-link">

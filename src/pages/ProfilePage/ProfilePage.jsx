@@ -48,57 +48,71 @@ const UserProfile = () => {
     return (
     <div>  
         <Header />
-        <div className="user-profile-container">
+        <div className="wrapper">
+            <div className="user-profile-container">
 
-            {user ? (
-                <div className="user-profile-content">
-                    {/* Avatar + Username */}
-                    <div className="user-profile-left">
-                        <div className="avatar-wrapper">
-                            {user.avatar ? (
-                                <img
-                                src={user.avatar}
-                                alt="Avatar"
-                                className="user-avatar"
-                                />
+                <div className="sidebar">
+                    {/* Nội dung sidebar */}
+                    <ul>
+                    <li><a href="/">Trang chủ</a></li>
+                    <li><a href="/profile" style={{ color: '#EF5350' }}>Thông tin cá nhân</a></li>
+                    <li><a href="/change-password">Đổi mật khẩu</a></li>
+                    <li><a href="#">Lịch sử thanh toán</a></li>
+                    <li><a href="#">Bình luận</a></li>
+                    <li><a href="#">Khóa học của tôi</a></li>
+                    </ul>
+                </div>
+
+                {user ? (
+                    <div className="user-profile-content">
+                        {/* Avatar + Username */}
+                        <div className="user-profile-left">
+                            <div className="avatar-wrapper">
+                                {user.avatar ? (
+                                    <img
+                                    src={user.avatar}
+                                    alt="Avatar"
+                                    className="user-avatar"
+                                    />
+                                ) : (
+                                    <FaUserCircle className="user-icon-fallback" />
+                                )}
+                            </div>
+                            <h2 className="user-username">{user.userName}</h2>
+                        </div>
+
+                        {/* Thông tin cá nhân */}
+                        <div className="user-profile-right">
+                            <h1 className="user-profile-title">Thông tin cá nhân</h1>
+
+                            {editMode ? (
+                                <>
+                                    <InputRow label="Họ tên" name="fullName" value={formData.fullName} onChange={handleInputChange} />
+                                    <InputRow label="Số điện thoại" name="phone" value={formData.phone} onChange={handleInputChange} />
+                                    <InputRow label="Ngày sinh" name="birthday" value={formData.birthday} onChange={handleInputChange} />
+                                    <InputRow label="Địa chỉ" name="address" value={formData.address} onChange={handleInputChange} />
+
+                                    <div className="edit-buttons">
+                                        <button className="save-btn" onClick={handleSave}>Lưu</button>
+                                        <button className="cancel-btn" onClick={() => setEditMode(false)}>Hủy</button>
+                                    </div>
+                                </>
                             ) : (
-                                <FaUserCircle className="user-icon-fallback" />
+                                <>
+                                    <InfoRow label="Họ tên" value={user.profile?.fullName} />
+                                    <InfoRow label="Số điện thoại" value={user.profile?.phone} />
+                                    <InfoRow label="Email" value={user.email} />
+                                    <InfoRow label="Ngày sinh" value={user.profile?.birthday} />
+                                    <InfoRow label="Địa chỉ" value={user.profile?.address} />
+                                    <button className="edit-btn" onClick={() => setEditMode(true)}>Chỉnh sửa</button>
+                                </>
                             )}
                         </div>
-                        <h2 className="user-username">{user.username}</h2>
                     </div>
-
-                    {/* Thông tin cá nhân */}
-                    <div className="user-profile-right">
-                        <h1 className="user-profile-title">Thông tin cá nhân</h1>
-
-                        {editMode ? (
-                            <>
-                                <InputRow label="Họ tên" name="fullName" value={formData.fullName} onChange={handleInputChange} />
-                                <InputRow label="Số điện thoại" name="phone" value={formData.phone} onChange={handleInputChange} />
-                                <InputRow label="Ngày sinh" name="birthday" value={formData.birthday} onChange={handleInputChange} />
-                                <InputRow label="Địa chỉ" name="address" value={formData.address} onChange={handleInputChange} />
-
-                                <div className="edit-buttons">
-                                    <button className="save-btn" onClick={handleSave}>Lưu</button>
-                                    <button className="cancel-btn" onClick={() => setEditMode(false)}>Hủy</button>
-                                </div>
-                            </>
-                        ) : (
-                            <>
-                                <InfoRow label="Họ tên" value={user.profile?.fullName} />
-                                <InfoRow label="Số điện thoại" value={user.profile?.phone} />
-                                <InfoRow label="Email" value={user.email} />
-                                <InfoRow label="Ngày sinh" value={user.profile?.birthday} />
-                                <InfoRow label="Địa chỉ" value={user.profile?.address} />
-                                <button className="edit-btn" onClick={() => setEditMode(true)}>Chỉnh sửa</button>
-                            </>
-                        )}
-                    </div>
-                </div>
-            ) : (
-                <p className="loading-text">Đang tải...</p>
-            )}
+                ) : (
+                    <p className="loading-text">Đang tải...</p>
+                )}
+            </div>
         </div>
     <Footer />
     </div>

@@ -1,6 +1,8 @@
 import axios from 'axios';
 
-export const API = axios.create({ baseURL: 'http://localhost:5000/api' });
+// export const API = axios.create({ baseURL: 'http://localhost:5000/api' });
+export const API = axios.create({ baseURL: 'https://elearning-backend-1-4fic.onrender.com/api' });
+
 
 export const getCourses = () => API.get('/courses');
 export const getCourseById = (id) => API.get(`/courses/${id}`);

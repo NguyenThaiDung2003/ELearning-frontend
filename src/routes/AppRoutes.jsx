@@ -5,7 +5,10 @@ import RegisterPage from "../pages/Register/RegisterPage.jsx";
 import ProfilePage from "../pages/ProfilePage/ProfilePage.jsx";
 import ChangePassword from "../pages/ChangePassword/ChangePassword.jsx";
 import ForgotPasswordPage from "../pages/ForgotPassword/ForgotPasswordPage.jsx";
-import AdminDashboard from "../pages/AdminDashboard/AdminDashboard.jsx";
+import AdminDashboard from "../pages/Admin/AdminDashboard.jsx";
+import CoursePage from "../pages/Admin/CoursesPage.jsx";
+import UserList from "../pages/Admin/UserList.jsx";
+// import QuizPage from "../pages/Admin/QuizPage.jsx";
 
 const AppRoutes = () => {
   return (
@@ -17,7 +20,12 @@ const AppRoutes = () => {
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/change-password" element={<ChangePassword />} />
         <Route path="/forgot-password" element={<ForgotPasswordPage />} />
-        <Route path="/admin" element={<AdminDashboard />} />
+        <Route path="/admin" element={<AdminDashboard />} >
+          <Route path="courses" element={<CoursePage/>} />
+          <Route path="users" element={<UserList/>} />
+          {/* <Route path="quizzes" element={<QuizPage />} /> */}
+        </Route>
+    
         {/* Thêm các route khác ở đây */}
       </Routes>
     </Router>

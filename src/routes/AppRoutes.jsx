@@ -10,6 +10,14 @@ import CoursePage from "../pages/Admin/CoursesPage.jsx";
 import UserList from "../pages/Admin/UserList.jsx";
 // import QuizPage from "../pages/Admin/QuizPage.jsx";
 
+
+// Import các trang mới
+import CourseList from "../pages/CourseList/CourseList.jsx";
+import CourseDetail from "../pages/CourseDetail/CourseDetail.jsx";
+import LessonView from "../pages/LessonView/LessonView.jsx";
+import QuizPage from "../pages/QuizPage/QuizPage.jsx";
+
+
 const AppRoutes = () => {
   return (
     <Router>
@@ -25,7 +33,12 @@ const AppRoutes = () => {
           <Route path="users" element={<UserList/>} />
           {/* <Route path="quizzes" element={<QuizPage />} /> */}
         </Route>
-    
+
+        {/* ROUTE cho hệ thống khóa học */}
+        <Route path="/courses" element={<CourseList />} />
+        <Route path="/courses/:id" element={<CourseDetail />} />
+        <Route path="/courses/:id/lesson/:lessonId" element={<LessonView />} />
+        <Route path="/courses/:id/quiz/:quizId" element={<QuizPage />} />
         {/* Thêm các route khác ở đây */}
       </Routes>
     </Router>

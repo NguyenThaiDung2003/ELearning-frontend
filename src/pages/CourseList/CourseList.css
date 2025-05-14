@@ -1,141 +1,3 @@
-/* .course-list-page {
-  font-family: sans-serif;
-}
-
-.search-filter {
-  background: #f3f4f6;
-  padding: 1rem;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-}
-
-.search-container {
-  max-width: 1200px;
-  margin: auto;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.search-input {
-  flex: 1 1 60%;
-  padding: 0.5rem 1rem;
-  border: 1px solid #ccc;
-  border-radius: 12px;
-}
-
-.filters select {
-  margin-left: 0.5rem;
-  padding: 0.5rem;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-}
-
-.course-grid {
-  display: grid;
-  gap: 1.5rem;
-  padding: 2rem 1rem;
-  max-width: 1200px;
-  margin: auto;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-}
-
-.course-card {
-  border: 1px solid #ddd;
-  border-radius: 12px;
-  overflow: hidden;
-  background: white;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-  transition: 0.3s;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-.course-card:hover {
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-}
-
-.course-card img {
-  width: 100%;
-  height: 180px;
-  object-fit: cover;
-}
-
-.card-body {
-  padding: 1rem;
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-}
-
-.instructor {
-  font-size: 0.9rem;
-  color: #555;
-}
-
-.meta {
-  font-size: 0.85rem;
-  color: #666;
-  margin: 0.25rem 0;
-}
-
-.uploaded {
-  font-size: 0.8rem;
-  color: #888;
-}
-
-.rating {
-  color: #f59e0b;
-}
-
-.price {
-  color: #10b981;
-  font-weight: bold;
-}
-
-.btn-detail {
-  margin-top: auto;
-  width: 100%;
-  padding: 0.5rem;
-  background-color: #2563eb;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-}
-
-.btn-detail:hover {
-  background-color: #1d4ed8;
-}
-
-.pagination {
-  display: flex;
-  justify-content: center;
-  gap: 0.5rem;
-  padding: 2rem;
-}
-
-.pagination button {
-  padding: 0.5rem 1rem;
-  border: 1px solid #ccc;
-  background: white;
-  border-radius: 6px;
-  cursor: pointer;
-  color: black;
-}
-
-.pagination button.active {
-  background: #2563eb;
-  color: white;
-  border-color: #2563eb;
-  font-weight: bold;
-} */
-
-
-
-
 
 .course-list-page {
   font-family: sans-serif;
@@ -156,7 +18,6 @@
   align-items: center;
   justify-content: space-between;
 }
-
 .search-input {
   flex: 1 1 60%;
   padding: 0.5rem 1rem;
@@ -167,8 +28,13 @@
 .filters select {
   margin-left: 0.5rem;
   padding: 0.5rem;
-  border-radius: 8px;
+  border-radius: 10px;
   border: 1px solid #ccc;
+}
+
+.filters {
+  display: flex;
+  justify-content: center;        
 }
 
 .course-grid {
@@ -277,3 +143,5 @@
   border-color: #2563eb;
   font-weight: bold;
 }
+
+

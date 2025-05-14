@@ -4,43 +4,43 @@ import Header from '../../component/Header/Header';
 import Footer from '../../component/Footer/Footer';
 import './CourseList.css';
 
-const mockCourses = Array.from({ length: 100 }).map((_, i) => {
-  const daysAgo = Math.floor(Math.random() * 60);
-  const uploadDate = new Date();
-  uploadDate.setDate(uploadDate.getDate() - daysAgo);
-  const formattedDate = uploadDate.toISOString().split('T')[0];
-
-  return {
-    id: 'course-' + (i + 1),
-    title: `Khóa học ${i + 1}`,
-    instructor: 'Giảng viên ' + String.fromCharCode(65 + i),
-    category: ['Lập trình', 'Thiết kế', 'Marketing', 'Ngoại ngữ'][i % 4],
-    level: ['Cơ bản', 'Nâng cao', 'Mọi trình độ'][i % 3],
-    type: i % 2 === 0 ? 'Miễn phí' : 'Trả phí',
-    rating: (Math.random() * 1.5 + 3.5).toFixed(1),
-    students: Math.floor(Math.random() * 1000 + 100),
-    price: i % 2 === 0 ? 0 : Math.floor(Math.random() * 300000 + 100000),
-    uploaded: formattedDate,
-    thumbnail: 'https://via.placeholder.com/300x180'
-  };
-});
+const mockCourses = Array.from({ length: 100 }).map((_, i) => ({
+  id: 'course-' + (i + 1),
+  title: `Khóa học ${i + 1}`,
+  instructor: 'Giảng viên ' + String.fromCharCode(65 + i),
+  category: ['Lập trình', 'Thiết kế', 'Marketing', 'Ngoại ngữ'][i % 4],
+  level: ['Cơ bản', 'Nâng cao', 'Mọi trình độ'][i % 3],
+  type: i % 2 === 0 ? 'Miễn phí' : 'Trả phí',
+  rating: (Math.random() * 1.5 + 3.5).toFixed(1),
+  students: Math.floor(Math.random() * 1000 + 100),
+  price: i % 2 === 0 ? 0 : Math.floor(Math.random() * 300000 + 100000),
+  uploaded: new Date(Date.now() - i * 86400000).toISOString().split('T')[0],
+  thumbnail: 'https://via.placeholder.com/300x180'
+}));
 
 const CourseList = () => {
   const [filters, setFilters] = useState({ category: '', level: '', type: '', sort: '' });
   const [page, setPage] = useState(1);
+  const [search, setSearch] = useState('');
   const navigate = useNavigate();
 
   const handleFilterChange = (e) => {
     setFilters({ ...filters, [e.target.name]: e.target.value });
-    setPage(1); // reset to first page when filtering
+    setPage(1);
+  };
+
+  const handleSearchChange = (e) => {
+    setSearch(e.target.value);
+    setPage(1);
   };
 
   const filteredCourses = mockCourses
     .filter(course => {
-      const categoryMatch = filters.category ? course.category === filters.category : true;
-      const levelMatch = filters.level ? course.level === filters.level : true;
-      const typeMatch = filters.type ? course.type === filters.type : true;
-      return categoryMatch && levelMatch && typeMatch;
+      const matchSearch = course.title.toLowerCase().includes(search.toLowerCase());
+      const matchCategory = filters.category ? course.category === filters.category : true;
+      const matchLevel = filters.level ? course.level === filters.level : true;
+      const matchType = filters.type ? course.type === filters.type : true;
+      return matchSearch && matchCategory && matchLevel && matchType;
     })
     .sort((a, b) => {
       switch (filters.sort) {
@@ -65,7 +65,15 @@ const CourseList = () => {
 
       <div className="search-filter">
         <div className="search-container">
-          <input type="text" placeholder="Tìm kiếm khóa học..." className="search-input" />
+          <div style={{ position: 'relative', width: '100%' }}>
+            <input
+              type="text"
+              value={search}
+              onChange={handleSearchChange}
+              placeholder="Tìm kiếm khóa học..."
+              className="search-input"
+            />
+          </div>
           <div className="filters">
             <select name="category" onChange={handleFilterChange}>
               <option value="">Danh mục</option>

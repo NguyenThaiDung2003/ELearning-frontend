@@ -1,0 +1,148 @@
+/* .quiz-page {
+  font-family: sans-serif;
+  background: var(--background-color, #fff);
+  color: var(--text-color, #1f2937);
+}
+
+.quiz-container {
+  max-width: 700px;
+  margin: auto;
+  padding: 2rem;
+}
+
+.question-box p {
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+}
+
+.question-box {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.options {
+  list-style: none;
+  padding-left: 0;
+  margin-bottom: 1.5rem;
+  width: 100%;
+}
+
+.options li {
+  margin-bottom: 0.5rem;
+  text-align: left;
+}
+
+.options label {
+  display: inline-flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+button {
+  background-color: #2563eb;
+  color: white;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+button:disabled {
+  background-color: #9ca3af;
+  cursor: not-allowed;
+}
+
+.result-box {
+  text-align: center;
+}
+
+.return-button {
+  display: inline-block;
+  margin-top: 1rem;
+  background-color: #10b981;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  text-decoration: none;
+}
+
+.return-button:hover {
+  background-color: #059669;
+} */
+
+
+
+.quiz-page {
+  font-family: sans-serif;
+  background: var(--background-color, #fff);
+  color: var(--text-color, #1f2937);
+}
+
+.quiz-container {
+  max-width: 700px;
+  margin: auto;
+  padding: 2rem;
+}
+
+.question-box p {
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+}
+
+.question-box {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.options {
+  list-style: none;
+  padding-left: 0;
+  margin-bottom: 1.5rem;
+  width: 100%;
+}
+
+.options li {
+  margin-bottom: 0.5rem;
+  text-align: left;
+}
+
+.options label {
+  display: inline-flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+button {
+  background-color: #2563eb;
+  color: white;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 6px;
+  cursor: pointer;
+  align-self: center; /* ✅ căn giữa nút trong box */
+}
+
+button:disabled {
+  background-color: #9ca3af;
+  cursor: not-allowed;
+}
+
+.result-box {
+  text-align: center;
+}
+
+.return-button {
+  display: inline-block;
+  margin-top: 1rem;
+  background-color: #10b981;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  text-decoration: none;
+}
+
+.return-button:hover {
+  background-color: #059669;
+}

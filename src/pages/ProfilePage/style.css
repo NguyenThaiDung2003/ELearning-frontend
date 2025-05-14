@@ -1,0 +1,164 @@
+.wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.user-profile-container {
+    display: flex;
+    justify-content: center;
+    margin: 0px ;
+    padding: 0;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    font-family: "Segoe UI", sans-serif;
+    background-color: #1e1e1e;
+    width: 100%;
+}
+/* Sidebar */
+.sidebar {
+    width: 250px;
+    padding: 20px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    border-right: 2px solid #606060;  /* Kẻ dọc ngăn cách giữa sidebar và content */
+  }
+  
+
+  .sidebar ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .sidebar ul li {
+    margin-bottom: 10px;
+    border-bottom: 1px solid #606060; /* Kẻ ngang ngăn cách các mục trong sidebar */
+  }
+  
+  .sidebar ul li a {
+    text-decoration: none;
+    color: #ffffff;
+    font-size: 16px;
+    display: block;
+    padding: 10px 0;
+  }
+  
+.user-profile-title {
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 32px;
+    text-align: center;
+    color: #ffffff;
+}
+
+.user-profile-content {
+    display: flex;
+    flex-direction: column;
+    min-width: 60%;
+    margin-left: 20px;
+    gap: 32px;
+}
+
+@media (min-width: 768px) {
+    .user-profile-content {
+        min-width: none;
+        flex-direction: row;
+        align-items: flex-start;
+        width: 70%;
+    }
+}
+
+.user-profile-left {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+}
+
+.user-avatar,.user-icon-fallback {
+    width: 160px;
+    height: 160px;
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    margin-bottom: 16px;
+}
+
+.user-username {
+    font-size: 20px;
+    font-weight: 600;
+    color: #d8d8d8;
+}
+
+.user-profile-right {
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.info-row {
+    display: flex;
+    gap: 12px;
+    font-size: 16px;
+}
+
+.info-label {
+    width: 120px;
+    font-weight: 500;
+    color: #ffffff;
+    line-height: 40px;
+    text-align: left;
+}
+
+.info-value {
+    color: #e0e0e0;
+    line-height: 40px;
+}
+
+.info-empty {
+    color: #949494;
+    font-style: italic;
+}
+
+.loading-text {
+    text-align: center;
+    color: #888;
+    font-style: italic;
+}
+
+.edit-btn, .save-btn, .cancel-btn {
+    margin-top: 20px;
+    margin-right: 10px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.save-btn {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+}
+
+.cancel-btn {
+    background-color: #f44336;
+    color: white;
+    border: none;
+    border-radius: 5px;
+}
+
+.edit-btn {
+    background-color: #2196F3;
+    color: white;
+    border: none;
+    border-radius: 5px;
+}
+
+.info-input {
+    flex: 1;
+    padding: 8px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}

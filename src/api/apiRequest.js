@@ -104,6 +104,22 @@ export const updateUserProfile = async (profileData) => {
     }
 };
 
+export const fetchUserCourses = async () => {
+  try {
+        const user = store.getState().auth.login?.currentUser;
+        if (!user) throw new Error("User not logged in");
+
+    const res = await axiosJWT.get(`${BASE_URL}/api/course/my-courses`, {
+            headers: {
+                Authorization: `Bearer ${user?.accessToken}`,
+            },
+        });
+    return res.data;
+  } catch (error) {
+    throw new Error("Error fetching user courses: " + error.message);
+  }
+};
+
 export const changePassword = async (data) => {
     try {
         const user = store.getState().auth.login?.currentUser;  
@@ -151,3 +167,17 @@ export const requestForgotPassword = async (email) => {
       throw error.response?.data?.message || "Không thể đặt lại mật khẩu!";
     }
   };
+//uploadavt
+  export const uploadAvatar = async (formData) => {
+        const user = store.getState().auth.login?.currentUser;  
+        if (!user)   throw new Error("User not logged in");
+
+    const res = await axiosJWT.put(`${BASE_URL}/api/user/updateAvatar`, formData, {
+        headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${user.accessToken}`,  
+        },
+        withCredentials: true,
+    });
+    return res.data;
+};

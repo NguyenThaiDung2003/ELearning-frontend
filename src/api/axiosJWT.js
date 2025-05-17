@@ -31,7 +31,7 @@ axiosJWT.interceptors.request.use(
                 accessToken: data.accessToken,
             };
             store.dispatch(loginSuccess(refreshUser));  
-            config.headers["Token"] = `Bearer ${data.accessToken}`;
+            config.headers["Authorization"] = `Bearer ${data.accessToken}`;
         }
         return config;
     },

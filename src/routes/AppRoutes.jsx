@@ -9,7 +9,9 @@ import MyCourses from "../pages/MyCourses/MyCourses.jsx";
 import AdminDashboard from "../pages/Admin/AdminDashboard.jsx";
 import CoursePage from "../pages/Admin/CoursesPage.jsx";
 import UserList from "../pages/Admin/UserList.jsx";
-// import QuizPage from "../pages/Admin/QuizPage.jsx";
+import AdminOverview from "../pages/Admin/AdminOverview.jsx";
+import AddCourse from "../pages/Admin/CRUDCourse/AddCourse.jsx";
+import RequireAdmin from "../component/RequireAdmin/RequireAdmin.jsx";
 
 
 // Import các trang mới
@@ -29,12 +31,25 @@ const AppRoutes = () => {
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/change-password" element={<ChangePassword />} />
         <Route path="/forgot-password" element={<ForgotPasswordPage />} />
-        <Route path="/my-courses" element={<MyCourses />} />
-        <Route path="/admin" element={<AdminDashboard />} >
-          <Route path="courses" element={<CoursePage/>} />
-          <Route path="users" element={<UserList/>} />
-          {/* <Route path="quizzes" element={<QuizPage />} /> */}
-        </Route>
+
+
+        {/* ROUTE cho hệ thống quản trị viên */}
+        {/* <Route path="/admin" element={<RequireAdmin />} >
+          <Route path="" element={<AdminDashboard />}>
+            <Route path="" element={<AdminOverview />} />
+            <Route path="courses" element={<CoursePage />} />
+            <Route path="users" element={<UserList />} />
+            <Route path="courses/add" element={<AddCourse />} />
+          </Route>
+        </Route> */}
+
+        <Route path="/admin" element={<AdminDashboard />}>
+            <Route path="" element={<AdminOverview />} />
+            <Route path="courses" element={<CoursePage />} />
+            <Route path="users" element={<UserList />} />
+            <Route path="courses/add" element={<AddCourse />} />
+            <Route path="courses/edit/:id" element={<AddCourse mode="edit" />} />
+          </Route>
 
         {/* ROUTE cho hệ thống khóa học */}
         <Route path="/courses" element={<CourseList />} />

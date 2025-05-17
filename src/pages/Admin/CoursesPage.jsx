@@ -1,71 +1,112 @@
-import React from 'react';
-import './CoursesPage.css'; // Import CSS file for styling
+import React, { useState } from 'react';
+import './CoursesPage.css';
 import CourseCard from '../../component/CourseCard/CourseCard';
+import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
+import { getCourses } from '../../api/adminAPI/adminApiRequest';
 
 import plusIcon from '../../assets/plus.svg';
 
 const CoursePage = () => {
+
+    const [courses, setCourses] = useState([]);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const data = await getCourses();
+                setCourses(data.courses);
+            } catch (error) {
+                console.error("Lỗi khi lấy courses:", error);
+            }
+        };
+
+        fetchData();
+    }, []);
+
+
+
+    const [searchTerm, setSearchTerm] = useState('');
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 15;
+
+    const filteredCourses = courses.filter(course =>
+        course.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        course.category.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
+    const totalPages = Math.ceil(filteredCourses.length / itemsPerPage);
+    const indexOfLast = currentPage * itemsPerPage;
+    const indexOfFirst = indexOfLast - itemsPerPage;
+    const currentCourses = filteredCourses.slice(indexOfFirst, indexOfLast);
+
+    useEffect(() => {
+        setCurrentPage(1);
+    }, [searchTerm]);
+    const navigate = useNavigate();
+
+
     return (
-        <div class="course-page">
-            <div class="title">
+        <div className="course-page">
+
+            <input className="ad-search-input"
+                type="text"
+                placeholder="Tìm khóa học..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                onKeyDown={(e) => { if (e.key === 'Enter') handleSearch(e); }}
+            />
+
+
+            <div className="title">
                 <h1>Khoá học</h1>
             </div>
-            <div class="course-list-container">
-                <div class="course-list">
+            <div className="course-list-container">
+                <div className="course-list">
 
-                    <div class="add-new-card">
-                        <img class="plusIcon" src={plusIcon} alt="add" />
+                    <div className="add-new-card card"
+                        onClick={() => { navigate('/admin/courses/add'); }} >
+                        <img className="plusIcon" src={plusIcon} alt="add" />
                     </div>
 
-                    <CourseCard
-                        course={{
-                            title: 'Khóa học React',
-                            price: '900.000 VNĐ',
-                            image: 'https://duhocvinedu.edu.vn/wp-content/uploads/2018/04/lich-su-hinh-thanh-dai-hoc-harvard-my.jpg'
-                        }}
-                    />
+                    {currentCourses.map((course, idx) => (
+                        <CourseCard
+                            onClick={() => { navigate('/admin/courses/edit/${course._id}') }}
+                            key={idx}
+                            course={course}
+                            className="card"
+                        />
+                    ))}
 
 
-                    <CourseCard
-                        course={{
-                            title: 'Khóa học JavaScript',
-                            price: '1.500.000 VNĐ',
-                            image: 'https://datadesignsb.com/wp-content/uploads/2019/09/thiet-ke-do-hoa-hinh-anh.jpg'
-                        }}
-                    />
-
-                    <CourseCard
-                        course={{
-                            title: 'Khóa học Lập trình Web',
-                            price: '900.000 VNĐ',
-                            image: 'https://itplus-academy.edu.vn/upload/071663969d40ee0e4a5c57251c1a8993/files/ha%202.jpg'
-                        }}
-                    />
-
-                    <CourseCard
-                        course={{
-                            title: 'Khóa học gì đó khác',
-                            price: '730.000 VNĐ',
-                            image: 'https://digiart.academy/upload/images/khong-co-hoa-tay-2.png'
-                        }}
-                    />
-
-                    <CourseCard
-                        course={{
-                            title: 'Khóa học Đồ hoạ',
-                            price: '650.000 VNĐ',
-                            image: 'https://hocdohoa.org/wp-content/uploads/2016/09/34.jpg'
-                        }}
-                    />
-
-                    <CourseCard
-                        course={{
-                            title: 'Khóa học Đồ hoạ',
-                            price: '650.000 VNĐ',
-                            image: 'https://hocdohoa.org/wp-content/uploads/2016/09/34.jpg'
-                        }}
-                    />
                 </div>
+            </div>
+
+            <div className="pagination">
+                <button
+                    className="numbering"
+                    onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+                    disabled={currentPage === 1}
+                >
+                    ←
+                </button>
+
+                {[...Array(totalPages)].map((_, idx) => (
+                    <button
+                        className={`numbering ${currentPage === idx + 1 ? 'active' : ''}`}
+                        key={idx}
+                        onClick={() => setCurrentPage(idx + 1)}>
+                        {idx + 1}
+                    </button>
+                ))}
+
+                <button
+                    className="numbering"
+                    onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+                    disabled={currentPage === totalPages}
+                >
+                    →
+                </button>
             </div>
 
         </div>

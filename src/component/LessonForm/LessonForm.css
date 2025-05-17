@@ -1,7 +1,8 @@
 .lesson-form {
+    position: relative;
     margin: 30px auto;
     padding: 20px;
-    background-color: #2a2a2a;
+    background-color: #eee;
     border-radius: 12px;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
     font-family: sans-serif;
@@ -17,16 +18,19 @@
     margin-top: 12px;
     font-weight: bold;
     text-align: left;
+    color: #242424;
 }
 
 .lesson-form input,
 .lesson-form textarea {
+    color: #242424;
     width: 100%;
     padding: 8px;
     margin-top: 6px;
-    border-radius: 6px;
+    border-radius: 10px;
     border: 1px solid #3f3f3f;
     box-sizing: border-box;
+    background-color: #f0f0f0;
 }
 
 .lesson-form button {
@@ -45,6 +49,14 @@
     align-items: left;
 }
 
+.just-button{
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+    align-items: center;
+    margin-top: 20px;
+}
+
 .addQuiz {
     background-color: #3f3f3f;
     align-self: left;
@@ -57,7 +69,7 @@
 
 .submit {
     background-color: #28a745;
-    margin-right: 1vw;
+    
 }
 
 .submit:hover {
@@ -66,6 +78,7 @@
 
 .cancel {
     background-color: #c82333;
+    margin-right: 1vw;
 }
 
 .cancel:hover {
@@ -83,4 +96,27 @@ textarea::placeholder {
     font-family: sans-serif, monospace;
     font-size: 13px;
     color: #999;
+}
+
+.lesson-form .close-button {
+    background-color: transparent;
+    position: absolute;
+  top: 15px;
+  right: 15px;
+  margin: 0;
+    padding: 0;
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: #242424;
+  transition: color 0.2s ease;
+}
+
+.lesson-close-icon {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 20px;
+    color: #3f3f3f;
 }

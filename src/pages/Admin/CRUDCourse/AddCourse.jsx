@@ -1,23 +1,25 @@
 import React, { useState } from 'react';
 import './AddCourse.css';
 import LessonForm from '../../../component/LessonForm/LessonForm';
+import { useNavigate } from 'react-router-dom';
 
-const AddCourse = () => {
+const AddCourse = ({ initialData = {}, onSubmit, mode = 'add' }) => {
+  const navigate = useNavigate();
   const [form, setForm] = useState({
-    name: '',
-    description: '',
-    category: '',
-    difficulty: 'Trung bình',
-    price: '',
-    discountPrice: ''
+    name: initialData.name || '',
+    description: initialData.description || '',
+    category: initialData.category || '',
+    difficulty: initialData.difficulty || 'Trung bình',
+    price: initialData.price || '',
+    discountPrice: initialData.discountPrice || ''
   });
+
+  const [lessons, setLessons] = useState(initialData.lessons || []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm(prev => ({ ...prev, [name]: value }));
   };
-
-  const [lessons, setLessons] = useState([]);
 
   const handleAddLesson = () => {
     setLessons(prev => [...prev, { id: Date.now() }]);
@@ -32,7 +34,8 @@ const AddCourse = () => {
       const lessonIndex = prevLessons.findIndex(l => l.id === id);
       if (lessonIndex !== -1) {
         const updatedLessons = [...prevLessons];
-        updatedLessons[lessonIndex] = {...updatedLessons[lessonIndex],
+        updatedLessons[lessonIndex] = {
+          ...updatedLessons[lessonIndex],
           [field]: value
         };
         return updatedLessons;
@@ -40,28 +43,37 @@ const AddCourse = () => {
       return prevLessons;
     });
   };
+
   const handleSave = () => {
-    console.log('Lưu khóa học:', form);
-    alert('Đã lưu khóa học!');
+    const fullData = { ...form, lessons };
+    console.log(`${mode === 'edit' ? 'Cập nhật' : 'Lưu'} khóa học:`, fullData);
+    if (onSubmit) {
+      onSubmit(fullData); // gửi về component cha
+    }
+    alert(`${mode === 'edit' ? 'Đã cập nhật' : 'Đã lưu'} khóa học!`);
+    navigate('/admin/courses');
   };
 
   const handleCancel = () => {
     if (window.confirm('Bạn có chắc muốn huỷ không?')) {
-      setForm({
-        name: '',
-        description: '',
-        category: '',
-        difficulty: 'Trung bình',
-        price: '',
-        discountPrice: ''
-      });
+      // setForm({
+      //   name: '',
+      //   description: '',
+      //   category: '',
+      //   difficulty: 'Trung bình',
+      //   price: '',
+      //   discountPrice: ''
+      // });
+      // setLessons([]);
+      navigate('/admin/courses');
     }
+    
   };
 
   return (
     <div>
       <div className="ad-course-title">
-        <h1>Thêm khóa học</h1>
+        <h1>{mode === 'edit' ? 'Chỉnh sửa khóa học' : 'Thêm khóa học'}  </h1>
       </div>
 
       <div className="add-course-form">

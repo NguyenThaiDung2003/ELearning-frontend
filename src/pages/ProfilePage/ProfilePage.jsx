@@ -1,5 +1,8 @@
+import { useDispatch, useSelector } from "react-redux";
+import { loginSuccess } from "../../redux/authSlice"; // Đường dẫn đúng slice của bạn
+import { store } from "../../redux/store"; // Để lấy currentUser nếu cần
 import { useEffect, useState } from "react";
-import { getUserProfile, updateUserProfile } from "../../api/apiRequest";
+import { getUserProfile, updateUserProfile, uploadAvatar  } from "../../api/apiRequest";
 import Header from "../../component/Header/Header";
 import Footer from "../../component/Footer/Footer";
 import { FaUserCircle } from "react-icons/fa";
@@ -45,13 +48,65 @@ const UserProfile = () => {
         }
     };
 
+    const [avatarPreview, setAvatarPreview] = useState(null);
+    const [newAvatarFile, setNewAvatarFile] = useState(null);
+    const [isAvatarChanged, setIsAvatarChanged] = useState(false);
+    const dispatch = useDispatch(); 
+
+    const handleAvatarChange = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    // Hiện preview ảnh
+    setAvatarPreview(URL.createObjectURL(file));
+
+    // Lưu file để khi nhấn Lưu mới gửi lên API
+    setNewAvatarFile(file);
+    setIsAvatarChanged(true);
+    };
+
+    const handleSaveAvatar = async () => {
+    if (!newAvatarFile||!user) return;
+
+    const formData = new FormData();
+    formData.append("avatarFile", newAvatarFile);
+
+    try {
+        const res = await uploadAvatar(formData);
+        
+        const prevAuth = store.getState().auth.login.currentUser;
+        const updatedAuth = {
+        ...prevAuth,
+        user: {
+            ...prevAuth.user,
+            avatarUrl: res.avatarUrl,
+        },
+        };
+
+        dispatch(loginSuccess(updatedAuth));
+
+        setUser((prev) => ({
+        ...prev,
+        avatarUrl: res.avatarUrl,
+        }));
+        setAvatarPreview(null);
+        setNewAvatarFile(null);
+        setIsAvatarChanged(false);
+
+        // window.location.reload();
+    } catch (err) {
+        console.error("Avatar upload failed:", err);
+    }
+    };
+
+
     return (
     <div>  
         <Header />
         <div className="wrapper">
             <div className="user-profile-container">
 
-                <div className="sidebar">
+                <div className="sidebar-profile">
                     {/* Nội dung sidebar */}
                     <ul>
                     <li><a href="/">Trang chủ</a></li>
@@ -59,7 +114,7 @@ const UserProfile = () => {
                     <li><a href="/change-password">Đổi mật khẩu</a></li>
                     <li><a href="#">Lịch sử thanh toán</a></li>
                     <li><a href="#">Bình luận</a></li>
-                    <li><a href="#">Khóa học của tôi</a></li>
+                    <li><a href="/my-courses">Khóa học của tôi</a></li>
                     </ul>
                 </div>
 
@@ -68,17 +123,45 @@ const UserProfile = () => {
                         {/* Avatar + Username */}
                         <div className="user-profile-left">
                             <div className="avatar-wrapper">
-                                {user.avatar ? (
-                                    <img
-                                    src={user.avatar}
-                                    alt="Avatar"
-                                    className="user-avatar"
-                                    />
-                                ) : (
-                                    <FaUserCircle className="user-icon-fallback" />
-                                )}
-                            </div>
+                            {avatarPreview ? (
+                                <img
+                                src={avatarPreview}
+                                alt="Avatar Preview"
+                                className="user-avatar"
+                                style={{ marginBottom: "10px" }}
+                                />
+                            ) : user.avatarUrl ? (
+                                <img src={user.avatarUrl} alt="Avatar" className="user-avatar" />
+                            ) : (
+                                <FaUserCircle className="user-icon-fallback" />
+                            )}
+
                             <h2 className="user-username">{user.userName}</h2>
+
+                               <input
+                                type="file"
+                                id="avatarUpload"
+                                accept="image/*"
+                                onChange={handleAvatarChange}
+                                style={{ display: "none" }}
+                                />
+
+                                {!isAvatarChanged && (
+                                    <label htmlFor="avatarUpload" className="upload-avatar-btn">
+                                        Tải ảnh lên
+                                    </label>
+                                )}
+
+                            {isAvatarChanged && (
+                                <button
+                                className="save-avatar-btn"
+                                onClick={handleSaveAvatar}
+                                style={{ marginTop: "10px" }}
+                                >
+                                Lưu ảnh
+                                </button>
+                            )}
+                            </div>     
                         </div>
 
                         {/* Thông tin cá nhân */}

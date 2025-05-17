@@ -7,6 +7,7 @@ import { useDispatch } from "react-redux";
 import { logOut } from "../../api/apiRequest"; 
 import { useNavigate } from "react-router-dom";
 import { axiosJWT } from "../../api/axiosJWT";
+import logo from "../../assets/logo.png";
 
 const Header = () => {
   const user = useSelector((state) => state.auth.login.currentUser?.user); 
@@ -52,19 +53,19 @@ const Header = () => {
   
   return (
     <header className="header">
-      <div className="Logo">
-        <div className="logo-box">E</div>
-        <span className="logo-text">BK-Study</span>
-      </div>
+      <Link to="/" className="Logo">
+      <img src={logo} alt="BK-Study Logo" className="logo-img" />
+      <span className="logo-text">BK-Study</span>
+      </Link>
 
 
       <div className="relative search-container">
         <input
           type="text"
           placeholder="Tìm kiếm khóa học, bài giảng ..."
-          className="search-input"
+          className="search-input-header"
         />
-        <FaSearch className="search-icon" />
+        <FaSearch className="search-icon-header" />
       </div>
 
       <div className="UserSection">
@@ -83,13 +84,30 @@ const Header = () => {
 
             {/* Menu User */}
             <div className="user-menu" ref={dropdownRef}>
-              <FaUserCircle
-                className="user-icon"
-                onClick={handleToggleDropdown}
-              />
+              {user.avatarUrl ? (
+                <img
+                  src={user.avatarUrl}
+                  alt="avatar"
+                  className="User-avatar"
+                  onClick={handleToggleDropdown}
+                />
+              ) : (
+                <FaUserCircle
+                  className="user-icon"
+                  onClick={handleToggleDropdown}
+                />
+              )}
               <div className={`dropdown ${showDropdown ? "show" : ""}`}>
                 <div className="dropdown-header">
-                  <FaUserCircle className="dropdown-icon" />
+                  {user.avatarUrl ? (
+                    <img
+                      src={user.avatarUrl}
+                      alt="avatar"
+                      className="dropdown-avatar"
+                    />
+                  ) : (
+                    <FaUserCircle className="dropdown-icon" />
+                  )}
                   <span className="dropdown-username">{user.userName}</span>
                 </div>
                 <hr />

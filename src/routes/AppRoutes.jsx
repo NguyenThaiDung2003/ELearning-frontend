@@ -5,6 +5,7 @@ import RegisterPage from "../pages/Register/RegisterPage.jsx";
 import ProfilePage from "../pages/ProfilePage/ProfilePage.jsx";
 import ChangePassword from "../pages/ChangePassword/ChangePassword.jsx";
 import ForgotPasswordPage from "../pages/ForgotPassword/ForgotPasswordPage.jsx";
+import MyCourses from "../pages/MyCourses/MyCourses.jsx";
 import AdminDashboard from "../pages/Admin/AdminDashboard.jsx";
 import CoursePage from "../pages/Admin/CoursesPage.jsx";
 import UserList from "../pages/Admin/UserList.jsx";
@@ -24,12 +25,13 @@ const AppRoutes = () => {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<HomePage />} />
+        <Route path="/" element={<CourseList />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/change-password" element={<ChangePassword />} />
         <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+
 
         {/* ROUTE cho hệ thống quản trị viên */}
         {/* <Route path="/admin" element={<RequireAdmin />} >

@@ -81,6 +81,7 @@
 
 /* Modal */
 .modal-overlay {
+  z-index: 20;
   position: fixed;
   top: 0;
   left: 0;
@@ -174,12 +175,66 @@
 @media screen and (max-width: 768px) {
   .ad-search-input-container {
     position: relative;
-    max-width: 100%;
     padding: 10px 15px;
     margin: 0;
     display: flex;
     justify-content: right;
 
     align-items: center;
+  }
+}
+
+/* Với màn hình nhỏ hơn 768px (điện thoại) */
+@media (max-width: 560px) {
+  .user-table {
+    border: 0;
+
+  }
+
+  .user-table thead {
+    display: none;
+  }
+
+  .user-table tr {
+    display: block;
+    margin-bottom: 1rem;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 1rem;
+  }
+
+  .user-table td {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid #eee;
+  }
+
+  .user-table td:last-child {
+    border-bottom: none;
+  }
+
+  .user-table td::before {
+    content: attr(data-label);
+    font-weight: 600;
+    color: #555;
+  }
+
+  .avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  .user-list-button {
+    margin-left: 0.5rem;
+    background: transparent;
+    border: none;
+    color: #333;
+    cursor: pointer;
+    font-size: 1.2rem;
   }
 }

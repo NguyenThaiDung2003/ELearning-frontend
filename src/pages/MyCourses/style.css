@@ -33,8 +33,8 @@
     margin-bottom: 10px;
     border-bottom: 1px solid #606060; /* Kẻ ngang ngăn cách các mục trong sidebar */
   }
-     .sidebar-mc ul li:hover{
-    background-color: #747474;
+   .sidebar-mc ul li:hover{
+    background-color: #b8b8b8;
    }
 
   .sidebar-mc ul li a {
@@ -44,6 +44,8 @@
     display: block;
     padding: 10px 0;
   }
+
+
   
 /* My Courses */
 
@@ -96,6 +98,8 @@
 
 .my-courses-item:hover {
   box-shadow: 0 4px 10px rgb(0 0 0 / 0.1);
+  background-color: #c9c9c9;
+  cursor: pointer;
 }
 
 .my-courses-item-image {

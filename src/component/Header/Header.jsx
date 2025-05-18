@@ -78,7 +78,10 @@ const Header = () => {
                 onClick={handleToggleNotification }
               />
               <div className={`notification-box ${showNotification ? "show" : ""}`}>
-                <p>Không có thông báo nào</p>
+                <h3 className="notification-title">Thông báo</h3>
+                <div  className="notification-text">
+                <p >Không có thông báo nào</p>
+                </div>
               </div>
             </div>
 

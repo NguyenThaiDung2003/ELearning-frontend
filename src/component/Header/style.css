@@ -139,6 +139,23 @@
   padding: 10px;
   text-align: center;
   border: 1px solid #ddd;
+  z-index: 999;
+}
+
+.notification-title {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 10px;
+  color: #333;
+  border-bottom: 2px solid #ccc; 
+  padding-bottom: 6px; 
+}
+
+/* Nội dung */
+.notification-text p {
+  margin: 0;
+  font-size: 14px;
+  color: #666;
 }
 
 .dropdown.show, 

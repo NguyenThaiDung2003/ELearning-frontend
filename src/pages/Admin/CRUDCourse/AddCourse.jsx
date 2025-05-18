@@ -1,33 +1,95 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './AddCourse.css';
 import LessonForm from '../../../component/LessonForm/LessonForm';
+import { adminCreateCourse, updateLesson, createLesson, getLessonsByCourseId } from '../../../api/adminAPI/adminApiRequest';
+
 import { useNavigate } from 'react-router-dom';
 
-const AddCourse = ({ initialData = {}, onSubmit, mode = 'add' }) => {
+
+const AddCourse = ({ initialData = {}, onSubmit, mode = 'add', courseId }) => {
+  
   const navigate = useNavigate();
-  const [form, setForm] = useState({
-    name: initialData.name || '',
-    description: initialData.description || '',
-    category: initialData.category || '',
-    difficulty: initialData.difficulty || 'Trung bình',
-    price: initialData.price || '',
-    discountPrice: initialData.discountPrice || ''
+
+  useEffect(() => {
+    if (initialData && mode === 'edit') {
+
+      setFormValues({
+        name: initialData.name || '',
+        category: initialData.category || '',
+        level: initialData.level || 'Trung bình',
+        price: initialData.price || '',
+        discountPrice: initialData.discountPrice || '',
+        description: initialData.description || '',
+        image: initialData.image || '',
+      });
+      setLessons(initialData.lessons || []);
+    }
+  }, [initialData, mode]);
+
+  useEffect(() => {
+  if (mode === 'edit' && courseId) {
+    getLesson(courseId);
+  }
+}, [mode, courseId]);
+
+  const [formValues, setFormValues] = useState({
+    name: '',
+    category: '',
+    level: 'Trung bình',
+    price: '',
+    discountPrice: '',
+    description: '',
+    image: '',
+
   });
 
-  const [lessons, setLessons] = useState(initialData.lessons || []);
+  const [thumbnail, setThumbnail] = useState(null);
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setForm(prev => ({ ...prev, [name]: value }));
+    setFormValues({
+      ...formValues,
+      [e.target.name]: e.target.value
+    });
+  };
+
+  const handleFileChange = (e) => {
+    setThumbnail(e.target.files[0]);
+  };
+
+  const urlToFile = async (url, filename, mimeType) => {
+    const res = await fetch(url);
+    const buffer = await res.arrayBuffer();
+    return new File([buffer], filename, { type: mimeType });
+  };
+
+  
+  const [lessons, setLessons] = useState(initialData.lessons || []);
+
+  const getLesson = async (courseId) => {
+    try {
+      const lessons = await getLessonsByCourseId(courseId);
+      console.log('Danh sách bài học:', lessons);
+      setLessons(lessons);
+    } catch (error) {
+      console.error('Lỗi khi lấy danh sách bài học:', error);
+    }
   };
 
   const handleAddLesson = () => {
-    setLessons(prev => [...prev, { id: Date.now() }]);
+    setLessons(prev => [...prev, { id: null, title: '', description: '', videoUrl: '' }]);
   };
 
   const handleRemoveLesson = (idToRemove) => {
-    setLessons(prevLessons => prevLessons.filter(l => l.id !== idToRemove));
+    setLessons(prevLessons => {
+    const updated = prevLessons.filter(l => l.id !== idToRemove);
+    return updated;
+    });
   };
+
+  const refreshLessons = async () => {
+  const data = await getLessonsByCourseId(courseId);
+  setLessons(data); // cập nhật danh sách bài học mới
+};
 
   const handleLessonChange = (id, field, value) => {
     setLessons(prevLessons => {
@@ -44,15 +106,75 @@ const AddCourse = ({ initialData = {}, onSubmit, mode = 'add' }) => {
     });
   };
 
-  const handleSave = () => {
-    const fullData = { ...form, lessons };
-    console.log(`${mode === 'edit' ? 'Cập nhật' : 'Lưu'} khóa học:`, fullData);
-    if (onSubmit) {
-      onSubmit(fullData); // gửi về component cha
+  const saveLessons = async (courseId) => {
+  try {
+    for (const lesson of lessons) {
+      const payload = { ...lesson, courseId };
+
+      if (!lesson.title.trim()) continue;
+
+      if (!lesson.id) {
+        const res = await createLesson(payload);
+        console.log('Đã tạo bài học mới:', res.data);
+      } else {
+        await updateLesson(lesson.id, payload);
+        console.log('Đã cập nhật bài học:', lesson.id);
+      }
     }
-    alert(`${mode === 'edit' ? 'Đã cập nhật' : 'Đã lưu'} khóa học!`);
-    navigate('/admin/courses');
+  } catch (error) {
+    console.error('Lỗi khi lưu bài học:', error);
+  }
+};
+
+  const handleSave = async (e) => {
+    e.preventDefault();
+
+    const formData = new FormData();
+    formData.append('name', formValues.name);
+    formData.append('price', formValues.price);
+    formData.append('discountPrice', formValues.discountPrice);
+    formData.append('level', formValues.level);
+    formData.append('description', formValues.description);
+    formData.append('category', formValues.category);
+
+    if (thumbnail) {
+      formData.append('image', thumbnail);
+    } else if (mode === 'edit' && initialData?.thumbnail) {
+      const fileFromURL = await urlToFile(
+        `${BASE_URL}${initialData.thumbnail}`,
+        'thumbnail.jpg',
+        'image/jpeg'
+      );
+      formData.append('image', fileFromURL);
+    }
+
+    // for (let pair of formData.entries()) {
+    //   console.log(pair[0] + ':', pair[1]);
+    // }
+
+    try {
+       let newCourseId = courseId; 
+
+      if (mode === 'edit') {
+        await onSubmit(formData);
+      } else {
+
+        const res = await adminCreateCourse(formData);
+        alert('Tạo khóa học thành công!');
+        navigate('/admin/courses');
+      }
+
+      await saveLessons(newCourseId);
+      navigate('/admin/courses');
+
+
+    } catch (error) {
+      console.error('Lỗi tạo khóa học:', error);
+      alert('Tạo khóa học thất bại!');
+    }
   };
+
+
 
   const handleCancel = () => {
     if (window.confirm('Bạn có chắc muốn huỷ không?')) {
@@ -67,7 +189,7 @@ const AddCourse = ({ initialData = {}, onSubmit, mode = 'add' }) => {
       // setLessons([]);
       navigate('/admin/courses');
     }
-    
+
   };
 
   return (
@@ -79,22 +201,23 @@ const AddCourse = ({ initialData = {}, onSubmit, mode = 'add' }) => {
       <div className="add-course-form">
         <div className="form-group">
           <label>Tên khóa học</label>
-          <input name="name" value={form.name} onChange={handleChange} />
+          <input name="name" value={formValues.name} onChange={handleChange} />
         </div>
 
         <div className="form-group">
           <label>Mô tả</label>
-          <textarea name="description" value={form.description} onChange={handleChange} />
+          <textarea name="description" value={formValues.description} onChange={handleChange} 
+        />
         </div>
 
         <div className="form-group">
           <label>Danh mục</label>
-          <input name="category" value={form.category} onChange={handleChange} />
+          <input name="category" value={formValues.category} onChange={handleChange}  />
         </div>
 
         <div className="form-group">
           <label>Độ khó</label>
-          <select name="difficulty" value={form.difficulty} onChange={handleChange}>
+          <select name="level" value={formValues.level} onChange={handleChange} >
             <option value="Dễ">Dễ</option>
             <option value="Trung bình">Trung bình</option>
             <option value="Khó">Khó</option>
@@ -103,25 +226,28 @@ const AddCourse = ({ initialData = {}, onSubmit, mode = 'add' }) => {
 
         <div className="form-group">
           <label>Học phí</label>
-          <input type="number" name="price" value={form.price} onChange={handleChange} />
+          <input type="number" name="price" value={formValues.price} onChange={handleChange}  />
         </div>
 
         <div className="form-group">
           <label>Học phí khuyến mãi</label>
-          <input type="number" name="discountPrice" value={form.discountPrice} onChange={handleChange} />
+          <input type="number" name="discountPrice" value={formValues.discountPrice} onChange={handleChange}  />
         </div>
 
         <div className="form-group">
           <label>Ảnh bìa</label>
-          <input type="file" accept="image/*" />
+          <input type="file" name='image' onChange={handleFileChange} />
         </div>
 
         {lessons.map((lesson, index) => (
-          <LessonForm key={lesson.id}
+          <LessonForm key={lesson.id|| `new-${index}`}
+            courseId={courseId}
             lessonIndex={index + 1}
             lesson={lesson}
             onChange={handleLessonChange}
-            onRemove={() => handleRemoveLesson(lesson.id)} />
+            onRemove={() => handleRemoveLesson(lesson.id)}
+            refreshLessons={refreshLessons}
+             />
         ))}
 
         <div className="just-button">

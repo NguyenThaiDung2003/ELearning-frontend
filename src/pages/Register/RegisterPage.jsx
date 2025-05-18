@@ -21,14 +21,12 @@ const RegisterPage = () => {
 
   const handleRegister = (e) => {
     e.preventDefault();
-    if (password !== confirmPassword) {
-      alert("Mật khẩu xác nhận không khớp!");
-      return;
-    }
+    
     const newUser = {
       userName: username,
       email: email,
       password: password,
+      confirmPassword: confirmPassword,
     };
     registerUser(newUser, dispatch, navigate);
   };

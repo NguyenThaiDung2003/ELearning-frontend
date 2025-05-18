@@ -1,109 +1,132 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FaEdit, FaTrash } from 'react-icons/fa';
 import { FiLock, FiUnlock } from 'react-icons/fi';
 import { AiOutlineClose } from 'react-icons/ai';
-
+import { getAllUsers, deleteUser, editUserProfile, searchUsers } from '../../api/adminAPI/adminApiRequest';
 import './UserList.css';
 
-const initialUsers = [
-  {
-    id: 1,
-    name: 'Nguyễn Văn A',
-    username: 'nguyenvana',
-    avatar: 'https://i.pravatar.cc/100?img=1',
-    joinedAt: '2023-02-10',
-    email: 'a@example.com',
-    role: 'Học viên',
-    locked: false,
-  },
-  {
-    id: 2,
-    name: 'Trần Thị B',
-    username: 'tranthib',
-    avatar: 'https://i.pravatar.cc/100?img=2',
-    joinedAt: '2023-05-21',
-    email: 'b@example.com',
-    role: 'Học viên',
-    locked: true,
-  },
-  {
-    id: 3,
-    name: 'Lê Văn C',
-    username: 'levanc',
-    avatar: 'https://i.pravatar.cc/100?img=3',
-    joinedAt: '2023-08-15',
-    email: 'c@example.com',
-    role: 'Giáo viên',
-    locked: false,
-  },
-  {
-    id: 4,
-    name: 'Phạm Thị D',
-    username: 'phamthid',
-    avatar: 'https://i.pravatar.cc/100?img=4',
-    joinedAt: '2023-01-30',
-    email: 'hehe@gmail.com',
-    role: 'Quản trị viên',
-    locked: false,
-  },
-];
-
 const UserList = () => {
-  const [users, setUsers] = useState(initialUsers);
+
+  const [UserList, setUserList] = useState([]);
   const [editData, setEditData] = useState(null);
 
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const res = await getAllUsers();
+        setUserList(res.users);
+      } catch (error) {
+        console.error("Lỗi khi lấy users:", error);
+      }
+    };
+    fetchUsers();
+  }, []);
+
+
+  const [searchTerm, setSearchTerm] = useState('');
+  const [searchKeyword, setSearchKeyword] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 15;
+
+  const filteredUsers = UserList.filter(user =>
+    (user.name && user.name.toLowerCase().includes(searchKeyword.toLowerCase())) ||
+    (user.userName && user.userName.toLowerCase().includes(searchKeyword.toLowerCase()))
+  );
+
+  const handleSearchClick = () => {
+  setSearchKeyword(searchTerm);
+};
+
+
+  const totalPages = Math.ceil(filteredUsers.length / itemsPerPage);
+  const indexOfLast = currentPage * itemsPerPage;
+  const indexOfFirst = indexOfLast - itemsPerPage;
+  const currentUsers = filteredUsers.slice(indexOfFirst, indexOfLast);
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchTerm]);
+
+
+
+
+  // Sửa thông tin người dùng
   const handleEdit = (user) => {
     setEditData({ ...user });
+
   };
 
   const handleSave = () => {
-    const updated = users.map((u) =>
-      u.id === editData.id ? { ...editData } : u
+    const updatedList = UserList.map((u) =>
+      u._id === editData._id ? { ...editData } : u
     );
-    setUsers(updated);
+    setUserList(updatedList);
     setEditData(null);
+    const updatedUser = {
+      ...editData,
+      createdAt: new Date().toISOString(),
+    };
+    editUserProfile(updatedUser)
+      .then((res) => {
+        console.log("Cập nhật người dùng thành công:", res);
+      })
+      .catch((error) => {
+        console.error("Lỗi cập nhật người dùng:", error);
+      });
   };
 
+  // Xoá người dùng
   const handleDelete = (id) => {
-    const confirm = window.confirm(`Bạn có chắc muốn xoá người dùng ID: ${id}?`);
-    if (confirm) {
-      setUsers(users.filter((u) => u.id !== id));
+    const confirmDelete = window.confirm(`Bạn có chắc muốn xoá người dùng ID: ${id}?`);
+    if (confirmDelete) {
+      deleteUser(id)
+        .then((res) => {
+          console.log("Xoá người dùng thành công:", res);
+        })
+        .catch((error) => {
+          console.error("Lỗi xoá người dùng:", error);
+        });
+      setUserList(UserList.filter((u) => u._id !== id));
     }
   };
 
+  // Khoá / Mở khoá người dùng
   const toggleLock = (id) => {
-    const confirm = window.confirm(`Bạn có chắc muốn ${users.find(u => u.id === id).locked ? 'mở khoá' : 'khóa'} người dùng ID: ${id}?`);
-    if (!confirm) return; 
-    const updated = users.map((u) =>
-      u.id === id ? { ...u, locked: !u.locked } : u
+    const targetUser = UserList.find((u) => u._id === id);
+    const confirmLock = window.confirm(
+      `Bạn có chắc muốn ${targetUser?.locked ? 'mở khoá' : 'khoá'} người dùng ID: ${id}?`
     );
-    setUsers(updated);
+    if (!confirmLock) return;
+
+    const updatedList = UserList.map((u) =>
+      u._id === id ? { ...u, locked: !u.locked } : u
+    );
+    setUserList(updatedList);
   };
+
 
   const handleChange = (field, value) => {
     setEditData((prev) => ({ ...prev, [field]: value }));
   };
-  const [searchTerm, setSearchTerm] = useState('');
-  const handleSearch = (e) => {
-    e.preventDefault();
-    const filteredUsers = initialUsers.filter(user =>
-      user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      user.username.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-    setUsers(filteredUsers);
-  }
-
 
   return (
     <div className="user-list-page">
 
-      <input className="ad-search-input"
-                type="text"
-                placeholder="Tìm người dùng..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                onKeyDown={(e) => { if (e.key === 'Enter') handleSearch(e); }}
-            />
+      <div className="ad-search-input-container">
+        <input className="ad-search-input"
+        type="text"
+        placeholder="Tìm người dùng..."
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter') {
+            handleSearchClick();
+          }
+        }}
+      />
+      <button className="ad-search-button" onClick={handleSearchClick}>Tìm</button>
+      </div>
+      
 
       <div className="user-list-title">
         <h1>Danh sách người dùng</h1>
@@ -121,22 +144,29 @@ const UserList = () => {
           </tr>
         </thead>
         <tbody>
-          {users.map((user, index) => (
-            <tr key={user.id} className={index % 2 === 0 ? 'row-even' : 'row-odd'}>
-              <td><img src={user.avatar} alt="avatar" className="avatar" /></td>
-              <td>{user.name}</td>
-              <td>{user.username}</td>
-              <td>{user.joinedAt}</td>
+          {currentUsers.map((user, index) => (
+            <tr key={user._id} className={index % 2 === 0 ? 'row-even' : 'row-odd'}>
+              <td>
+                <img
+                  src={user.avatarUrl || 'https://via.placeholder.com/40'} // fallback nếu chưa có ảnh
+                  alt="avatar"
+                  className="avatar"
+                />
+              </td>
+              <td>{user.name || 'Chưa đặt tên'}</td>
+              <td>{user.userName}</td>
+              <td>{new Date(user.createdAt).toLocaleDateString()}</td>
               <td>{user.role}</td>
               <td>
                 <button className="user-list-button" onClick={() => handleEdit(user)}><FaEdit /></button>
-                <button className="user-list-button" onClick={() => handleDelete(user.id)}><FaTrash /></button>
-                <button className="user-list-button" onClick={() => toggleLock(user.id)}>
+                <button className="user-list-button" onClick={() => handleDelete(user._id)}><FaTrash /></button>
+                <button className="user-list-button" onClick={() => toggleLock(user._id)}>
                   {user.locked ? <FiUnlock /> : <FiLock />}
                 </button>
               </td>
             </tr>
           ))}
+
         </tbody>
       </table>
 
@@ -147,12 +177,14 @@ const UserList = () => {
               <AiOutlineClose />
             </button>
             <h3>Chỉnh sửa người dùng</h3>
+            <h4>Tên người dùng</h4>
             <input type="text" value={editData.name} onChange={(e) => handleChange('name', e.target.value)} />
+            <h4>Email</h4>
             <input type="email" value={editData.email} onChange={(e) => handleChange('email', e.target.value)} />
+            <h4>Vai trò</h4>
             <select value={editData.role} onChange={(e) => handleChange('role', e.target.value)}>
-              <option value="Học viên">Học viên</option>
-              <option value="Quản trị viên">Quản trị viên</option>
-              <option value="Giáo viên">Giáo viên</option>
+              <option value="User">User</option>
+              <option value="Admin">Admin</option>
             </select>
             <div className="btn-group">
               <button className="user-save" onClick={handleSave}>Lưu</button>
@@ -161,6 +193,35 @@ const UserList = () => {
           </div>
         </div>
       )}
+
+      <div className="pagination">
+        <button
+          className="numbering"
+          onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+          disabled={currentPage === 1}
+        >
+          ←
+        </button>
+
+        {[...Array(totalPages)].map((_, idx) => (
+          <button
+            className={`numbering ${currentPage === idx + 1 ? 'active' : ''}`}
+            key={idx}
+            onClick={() => setCurrentPage(idx + 1)}
+          >
+            {idx + 1}
+          </button>
+        ))}
+
+        <button
+          className="numbering"
+          onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+          disabled={currentPage === totalPages}
+        >
+          →
+        </button>
+      </div>
+
     </div>
   );
 };

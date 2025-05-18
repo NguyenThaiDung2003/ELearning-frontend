@@ -5,7 +5,7 @@
     align-items: center;
 }
 
-.user-profile-container {
+.password-change-container {
     display: flex;
     justify-content: center;
     margin: 0px ;
@@ -17,7 +17,7 @@
     width: 100%;
 }
 /* Sidebar */
-.sidebar {
+.sidebar-cp {
     width: 250px;
     padding: 20px;
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
@@ -25,28 +25,30 @@
   }
   
 
-  .sidebar ul {
+  .sidebar-cp ul {
     list-style: none;
     padding: 0;
   }
   
-  .sidebar ul li {
+  .sidebar-cp ul li {
     margin-bottom: 10px;
     border-bottom: 1px solid #606060; /* Kẻ ngang ngăn cách các mục trong sidebar */
   }
   
-  .sidebar ul li a {
+  .sidebar-cp ul li a {
     text-decoration: none;
     color: #ffffff;
     font-size: 16px;
     display: block;
     padding: 10px 0;
   }
-  
+   .sidebar-cp ul li:hover{
+    background-color: #747474;
+   }
 
 /* Change Password *******************************/
 
-.password-change-container {
+.password-change-content {
     display: flex;
     justify-content: center;
     margin: 0px;
@@ -65,21 +67,22 @@
     color: #ffffff;
 }
 
-.password-change-container {
+.password-change-content {
     display: flex;
     flex-direction: column;
     min-width: 60%;
     margin-left: 20px;
     gap: 32px;
+    width: 100%;
 }
 
 @media (min-width: 768px) {
-    .password-change-container {
+    .password-change-content {
         min-width: none;
         flex-direction: row;
         align-items: flex-start;
     }
-    .user-profile-container{
+    .password-change-container{
         width: 70%;
     }
 }

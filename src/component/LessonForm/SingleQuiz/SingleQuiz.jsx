@@ -1,17 +1,23 @@
 import React, { useState } from 'react';
 import './SingleQuiz.css';
+import { useEffect } from 'react';
 
 import { AiOutlineClose } from 'react-icons/ai';
 
-const SingleQuiz = ({ onCancel, onSave }) => {
+const SingleQuiz = ({quiz, onCancel, onSave }) => {
     const [questionText, setQuestionText] = useState('');
     const [answers, setAnswers] = useState([
-        { text: '', isCorrect: false },
+        { text: '', isCorrect: true },
         { text: '', isCorrect: false },
         { text: '', isCorrect: false },
         { text: '', isCorrect: false }
     ]);
 
+    useEffect(() => {
+        onSave({ questionText, answers });
+    }, [questionText, answers]);
+
+    
     const handleAnswerChange = (index, field, value) => {
         const updated = [...answers];
         updated[index][field] = value;
@@ -41,7 +47,7 @@ const SingleQuiz = ({ onCancel, onSave }) => {
                         <label>
                             <input
                                 type="radio"
-                                name="correctAnswer"
+                                name={`correctAnswer-${quiz._id}`}
                                 checked={ans.isCorrect}
                                 onChange={() => {
                                     setAnswers((prev) =>

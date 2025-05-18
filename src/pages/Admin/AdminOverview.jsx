@@ -1,34 +1,35 @@
 import React from 'react';
 import './AdminOverview.css'; // Import CSS file for styling
 import SummaryInfoCard from '../../component/SummaryInfoCard/SummaryInfoCard';
-import { FaBook, FaClipboardList } from 'react-icons/fa';
+import {FaEye, FaUser, FaStar } from 'react-icons/fa';
+import { MdLibraryBooks } from 'react-icons/md';
+import { useEffect, useState } from 'react';
 
-import {getTotalUsers, adminGetTotalCourses} from '../../api/adminAPI/adminApiRequest';
+import { getTotalUsers, adminGetTotalCourses } from '../../api/adminAPI/adminApiRequest';
 
 
 
 const AdminOverview = () => {
 
-    const totalUser = async () => {
-        try {
-            const response = await getTotalUsers();
-            if (response && response.data) {
-                getTotalUsers(response.data.totalUsers);
-            }
-        } catch (error) {
-            console.error("Error fetching total users:", error);
-        }
-    }
-    const totalCourses= async () => {
-        try {
-            const response = await adminGetTotalCourses();
-            if (response && response.data) {
-                adminGetTotalCourses(response.data.totalCourses);
-            }
-        } catch (error) {
-            console.error("Error fetching total courses:", error);
-        }
-    }
+    const [userCount, setTotalUsers] = useState(0);
+    const [courseCount, setTotalCourses] = useState(0);
+
+    useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const usersData = await getTotalUsers(); // { totalUser: 7 }
+        setTotalUsers(usersData.totalUsers);
+
+        const coursesData = await adminGetTotalCourses(); // { totalCourses: 12 }
+        setTotalCourses(coursesData.totalCourses);
+      } catch (error) {
+        console.error("Lỗi khi lấy dữ liệu tổng:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
 
     return (
         <div className="admin-overview">
@@ -40,29 +41,29 @@ const AdminOverview = () => {
                 <SummaryInfoCard
                     content={{
                         title: "Tổng số học viên",
-                        icon: <FaBook size={40}/>,
-                        count: totalUser.totalUser || 0
+                        icon: <FaUser size={40} color='#999999' />,
+                        count: userCount || 0
                     }}
                 />
                 <SummaryInfoCard
                     content={{
                         title: "Tổng số khóa học",
-                        icon: <FaClipboardList  size={40}/>,
-                        count: totalCourses.totalCourses ||0
+                        icon: <MdLibraryBooks size={40} color='#220022' />,
+                        count: courseCount || 0
                     }}
                 />
                 <SummaryInfoCard
                     content={{
-                        title: "Tổng số bài kiểm tra",
-                        icon: <FaClipboardList  size={40}/>,
-                        count: 10
+                        title: "Lượt truy cập",
+                        icon: <FaEye size={40} />,
+                        count: 3899
                     }}
                 />
                 <SummaryInfoCard
                     content={{
-                        title: "Tổng số người dùng",
-                        icon: <FaClipboardList  size={40}/>,
-                        count: 300
+                        title: "Đánh giá",
+                        icon: <FaStar size={40} color='#ffff00'/>,
+                        count: 4.7
                     }}
                 />
             </div>

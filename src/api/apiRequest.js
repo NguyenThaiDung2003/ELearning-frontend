@@ -2,7 +2,9 @@ import { axiosJWT } from "../api/axiosJWT";
 import axios from "axios";
 import { loginStart, loginFailed, loginSuccess, registerStart, registerFailed, registerSuccess, logoutStart, logoutSuccess, logoutFailed } from "../redux/authSlice";
 import {store} from "../redux/store";  
-const BASE_URL = import.meta.env.VITE_API_BASE_URL;
+// const BASE_URL = import.meta.env.VITE_API_BASE_URL;
+const BASE_URL = 'https://elearning-backend-2kn5.onrender.com'; // Địa chỉ API của bạn
+
 
 export const loginUser = async (user, dispatch, navigate) => {
     dispatch(loginStart()); 
@@ -104,6 +106,22 @@ export const updateUserProfile = async (profileData) => {
     }
 };
 
+export const fetchUserCourses = async () => {
+  try {
+        const user = store.getState().auth.login?.currentUser;
+        if (!user) throw new Error("User not logged in");
+
+    const res = await axiosJWT.get(`${BASE_URL}/api/course/my-courses`, {
+            headers: {
+                Authorization: `Bearer ${user?.accessToken}`,
+            },
+        });
+    return res.data;
+  } catch (error) {
+    throw new Error("Error fetching user courses: " + error.message);
+  }
+};
+
 export const changePassword = async (data) => {
     try {
         const user = store.getState().auth.login?.currentUser;  
@@ -151,3 +169,17 @@ export const requestForgotPassword = async (email) => {
       throw error.response?.data?.message || "Không thể đặt lại mật khẩu!";
     }
   };
+//uploadavt
+  export const uploadAvatar = async (formData) => {
+        const user = store.getState().auth.login?.currentUser;  
+        if (!user)   throw new Error("User not logged in");
+
+    const res = await axiosJWT.put(`${BASE_URL}/api/user/updateAvatar`, formData, {
+        headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${user.accessToken}`,  
+        },
+        withCredentials: true,
+    });
+    return res.data;
+};

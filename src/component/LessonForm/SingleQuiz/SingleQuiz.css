@@ -31,6 +31,7 @@
 
 .question-form .cauhoi {
     text-align: left;
+    width: max-content;
     font-size: 20px;
     font-weight: 600;
     color: #111827;
@@ -75,7 +76,7 @@
     border-radius: 6px;
     border: 1px solid #d1d5db;
     background-color: #f9fafb;
-    color: #1f2937;
+    color: #111827;
     transition: border-color 0.2s;
 }
 

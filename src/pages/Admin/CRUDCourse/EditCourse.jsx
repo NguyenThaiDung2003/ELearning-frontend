@@ -1,30 +1,59 @@
+import { useParams } from "react-router-dom";
+import {useNavigate} from "react-router-dom";
+import { useEffect, useState } from "react";
 import AddCourse from "./AddCourse";
+import { adminGetCourseById, adminUpdateCourse } from '../../../api/adminAPI/adminApiRequest';
 
 const EditCourse = () => {
-  const courseToEdit = {
-    name: 'React cơ bản',
-    description: 'Học từ đầu đến nâng cao',
-    category: 'Web',
-    difficulty: 'Trung bình',
-    price: 500000,
-    discountPrice: 250000,
-    lessons: [
-      { id: 1, title: 'Giới thiệu', videoUrl: '...' },
-      { id: 2, title: 'JSX và Components', videoUrl: '...' }
-    ]
-  };
+    const navigate = useNavigate();
+  const { id } = useParams(); // lấy course id từ URL
+  console.log("ID khóa học:", id);
+  const [courseToEdit, setCourseData] = useState(null);
 
-  const handleUpdate = (updatedCourse) => {
-    console.log('Dữ liệu cập nhật:', updatedCourse);
-    // Gọi API PUT tại đây
-  };
+  const handleUpdate = async (updatedFormData) => {
+  try {
+    for (let pair of updatedFormData.entries()) {
+      console.log(pair[0] + ':', pair[1]);
+    }
+    const res = await adminUpdateCourse(id, updatedFormData);
+    console.log("Cập nhật thành công:", res);
+
+    navigate('/admin/courses');
+  } catch (error) {
+    console.error("Cập nhật thất bại:", error);
+    alert("Cập nhật khóa học thất bại!");
+  }
+};
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await adminGetCourseById(id);
+        setCourseData(data); // lưu dữ liệu vào state
+        console.log("Dữ liệu khóa học:", data);
+      } catch (error) {
+        console.error("Không thể load khóa học:", error);
+      }
+    };
+
+    if (id) {
+      fetchData();
+    }
+  }, [id]); // chỉ gọi lại nếu id thay đổi
 
   return (
-    <AddCourse
-      initialData={courseToEdit}
-      mode="edit"
-      onSubmit={handleUpdate}
-    />
+    <div>
+      {courseToEdit ? (
+        <AddCourse
+          courseId={id}
+          initialData={courseToEdit}
+          mode="edit"
+          onSubmit={handleUpdate}
+        />
+      ) : (
+        <p>Đang tải dữ liệu khóa học...</p>
+      )}
+    </div>
   );
 };
 

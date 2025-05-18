@@ -5,6 +5,7 @@ import RegisterPage from "../pages/Register/RegisterPage.jsx";
 import ProfilePage from "../pages/ProfilePage/ProfilePage.jsx";
 import ChangePassword from "../pages/ChangePassword/ChangePassword.jsx";
 import ForgotPasswordPage from "../pages/ForgotPassword/ForgotPasswordPage.jsx";
+import MyCourses from "../pages/MyCourses/MyCourses.jsx";
 import AdminDashboard from "../pages/Admin/AdminDashboard.jsx";
 import CoursePage from "../pages/Admin/CoursesPage.jsx";
 import UserList from "../pages/Admin/UserList.jsx";
@@ -18,13 +19,14 @@ import CourseList from "../pages/CourseList/CourseList.jsx";
 import CourseDetail from "../pages/CourseDetail/CourseDetail.jsx";
 import LessonView from "../pages/LessonView/LessonView.jsx";
 import QuizPage from "../pages/QuizPage/QuizPage.jsx";
+import EditCourse from "../pages/Admin/CRUDCourse/EditCourse.jsx";
 
 
 const AppRoutes = () => {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<HomePage />} />
+        <Route path="/" element={<CourseList />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/profile" element={<ProfilePage />} />
@@ -32,22 +34,24 @@ const AppRoutes = () => {
         <Route path="/forgot-password" element={<ForgotPasswordPage />} />
 
         {/* ROUTE cho hệ thống quản trị viên */}
-        {/* <Route path="/admin" element={<RequireAdmin />} >
+        <Route path="/admin" element={<RequireAdmin />} >
           <Route path="" element={<AdminDashboard />}>
             <Route path="" element={<AdminOverview />} />
             <Route path="courses" element={<CoursePage />} />
             <Route path="users" element={<UserList />} />
             <Route path="courses/add" element={<AddCourse />} />
+            <Route path="courses/edit/:id" element={<EditCourse />} />
+            {/* Thêm các route khác ở đây */}
           </Route>
-        </Route> */}
+        </Route>
 
-        <Route path="/admin" element={<AdminDashboard />}>
+        {/* <Route path="/admin" element={<AdminDashboard />}>
             <Route path="" element={<AdminOverview />} />
             <Route path="courses" element={<CoursePage />} />
             <Route path="users" element={<UserList />} />
             <Route path="courses/add" element={<AddCourse />} />
             <Route path="courses/edit/:id" element={<AddCourse mode="edit" />} />
-          </Route>
+          </Route> */}
 
         {/* ROUTE cho hệ thống khóa học */}
         <Route path="/courses" element={<CourseList />} />

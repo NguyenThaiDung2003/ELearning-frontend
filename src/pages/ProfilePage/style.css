@@ -16,25 +16,25 @@
     width: 100%;
 }
 /* Sidebar */
-.sidebar {
-    width: 250px;
+.sidebar-profile {
+    width: 250px; 
     padding: 20px;
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
     border-right: 2px solid #606060;  /* Kẻ dọc ngăn cách giữa sidebar và content */
   }
   
 
-  .sidebar ul {
+  .sidebar-profile ul {
     list-style: none;
     padding: 0;
   }
   
-  .sidebar ul li {
+  .sidebar-profile ul li {
     margin-bottom: 10px;
     border-bottom: 1px solid #606060; /* Kẻ ngang ngăn cách các mục trong sidebar */
   }
   
-  .sidebar ul li a {
+  .sidebar-profile ul li a {
     text-decoration: none;
     color: #ffffff;
     font-size: 16px;
@@ -56,13 +56,15 @@
     min-width: 60%;
     margin-left: 20px;
     gap: 32px;
+    width: 100%;
 }
 
 @media (min-width: 768px) {
     .user-profile-content {
         min-width: none;
         flex-direction: row;
-        align-items: flex-start;
+    }
+    .user-profile-container{
         width: 70%;
     }
 }
@@ -161,4 +163,20 @@
     font-size: 16px;
     border: 1px solid #ccc;
     border-radius: 5px;
+}
+
+.upload-avatar-btn {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 8px 16px;
+  background-color: #007bff;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.2s ease;
+}
+
+.upload-avatar-btn:hover {
+  background-color: #0056b3;
 }

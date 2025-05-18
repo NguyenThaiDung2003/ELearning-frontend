@@ -1,9 +1,14 @@
 * {
-    box-sizing: border-box;
-    position: relative;
-  }
+  box-sizing: border-box;
+  position: relative;
+}
 
-  .ad-search-input {
+.course-page {
+  padding: 0;
+
+}
+
+/* .ad-search-input {
     width: 30%;
     padding: 10px;
     border-radius: 8px;
@@ -15,25 +20,58 @@
     position: absolute;
     top: 0;
     right: 50px;
-  }
+  } */
+
+.ad-search-input {
+  padding: 5px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  background-color: #f0f0f0;
+  color: #242424;
+  font-size: 16px;
+
+}
+
+.ad-search-input-container {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100%;
+  max-width: 300px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: left;
+  align-items: center;
+}
+
+.ad-search-button {
+  background-color: #242424;
+  color: white;
+  border: none;
+  padding: 5px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  margin-left: 5px;
+}
 
 .title {
-    display: flex;
-    align-items: center;
-    justify-content: left;
-    margin: 4vw 0 1vw 5vw;
-    width: max-content;
+  display: flex;
+  align-items: center;
+  justify-content: left;
+  margin: 4vw 0 1vw 5vw;
+  width: max-content;
 }
 
 .title h1 {
-    font-size: calc(10px + 2vw);
-    color: #2a2a2a;
+  font-size: calc(20px + 1vw);
+  color: #2a2a2a;
 }
 
 .course-list-container {
-    display: flex;
-    justify-content: center;
-    margin: 0 3vw;
+  display: flex;
+  justify-content: center;
+
 
 }
 
@@ -45,70 +83,48 @@
   width: 100%;
   max-width: 100%;
   padding: 16px;
-  overflow-x: hidden;  /* 👈 để tránh cuộn ngang */
+  overflow-x: hidden;
+  /* 👈 để tránh cuộn ngang */
 }
 
 
 .main {
-    height: fit-content;
-    min-height: 100vh;
-    justify-content: center;
+  height: fit-content;
+  min-height: 100vh;
 }
 
 .plusIcon {
-    width: 8vw;
-    height: 8vw;
-    
+  width: 8vw;
+  height: 8vw;
+
 
 }
 
 .add-new-card {
-    min-width: 100px;
-    min-height: 60px;
-    margin-bottom: 5%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 10px;
-    overflow: hidden;
-    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
-    background-color: #fffffe;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-
-}
-
-.add-new-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
-}
-
-.pagination button.numbering {
-  background-color: #aaa;
-  color: white;
-  border: 0.5px solid #aaa;
-  padding: 8px 12px;
-  margin: 0 0.3vw;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.pagination button.numbering:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-.pagination button.numbering.active {
-  background-color: #aaa;
-  border: 0.5px solid #aaa;
-  opacity: 0.5;
-}
-.pagination button.numbering:hover {
-  border: 0.5px solid #3a3a3a;
-}
- 
-.pagination {
+  min-width: 200px;
+  max-width: 240px;
+  min-height: 60px;
+  margin-bottom: 5%;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 1vw 0;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
+  background-color: #fffffe;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+}
+
+@media screen and (max-width: 768px) {
+  .ad-search-input-container {
+    position: relative;
+    max-width: 100%;
+    padding: 10px 15px;
+    margin: 0;
+    display: flex;
+    justify-content: right;
+
+    align-items: center;
+  }
 }

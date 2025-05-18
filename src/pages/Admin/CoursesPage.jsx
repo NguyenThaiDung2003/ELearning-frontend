@@ -27,13 +27,18 @@ const CoursePage = () => {
 
 
     const [searchTerm, setSearchTerm] = useState('');
+      const [searchKeyword, setSearchKeyword] = useState('');
+    
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 15;
 
     const filteredCourses = courses.filter(course =>
-        course.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        course.category.toLowerCase().includes(searchTerm.toLowerCase())
+        course.name.toLowerCase().includes(searchKeyword.toLowerCase()) ||
+        course.category.toLowerCase().includes(searchKeyword.toLowerCase())
     );
+    const handleSearchClick = () => {
+        setSearchKeyword(searchTerm);
+    };
 
     const totalPages = Math.ceil(filteredCourses.length / itemsPerPage);
     const indexOfLast = currentPage * itemsPerPage;
@@ -49,18 +54,27 @@ const CoursePage = () => {
     return (
         <div className="course-page">
 
-            <input className="ad-search-input"
-                type="text"
-                placeholder="Tìm khóa học..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                onKeyDown={(e) => { if (e.key === 'Enter') handleSearch(e); }}
-            />
-
+            
 
             <div className="title">
                 <h1>Khoá học</h1>
             </div>
+
+            <div className="ad-search-input-container">
+                <input className="ad-search-input"
+                    type="text"
+                    placeholder="Tìm khóa học..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    onKeyDown={(e) => {
+                        if (e.key === 'Enter') {
+                            handleSearchClick();
+                        }
+                    }}
+                />
+                <button className="ad-search-button" onClick={handleSearchClick}>Tìm</button>
+            </div>
+            
             <div className="course-list-container">
                 <div className="course-list">
 
@@ -71,7 +85,7 @@ const CoursePage = () => {
 
                     {currentCourses.map((course, idx) => (
                         <CourseCard
-                            onClick={() => { navigate('/admin/courses/edit/${course._id}') }}
+                            onClick={() => { navigate(`/admin/courses/edit/${course._id}`) }}
                             key={idx}
                             course={course}
                             className="card"

@@ -28,7 +28,7 @@ const LoginPage = () => {
       <Header />
       <div className="login-container">
         <main className="login-box">
-          <h1 className="title">Đăng Nhập</h1>
+          <h1 className="title-login">Đăng Nhập</h1>
           <form onSubmit={handleLogin} className="login-form">
             
             <input

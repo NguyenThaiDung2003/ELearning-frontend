@@ -36,7 +36,7 @@ const RegisterPage = () => {
       <Header />
       <div className="register-container">
         <main className="register-box">
-          <h1 className="title">Đăng Ký</h1>
+          <h1 className="title-register">Đăng Ký</h1>
           <form onSubmit={handleRegister} className="register-form">
             <input
               type="text"

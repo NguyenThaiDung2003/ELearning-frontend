@@ -74,7 +74,7 @@
   .login-btn {
     background: linear-gradient(to right, #ff7b00, #ff4f00);
     color: white;
-    width: 80px;
+    width: 120px;
     padding: 8px 16px;
     border-radius: 999px;
     text-decoration: none;
@@ -82,11 +82,26 @@
     transition: 0.3s;
   }
   
-  .login-btn:hover {
+  .register-btn{
+    background: linear-gradient(to right, #ff7b00, #ff4f00);
+    color: white;
+    width: 120px;
+    padding: 8px 16px;
+    border-radius: 999px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: 0.3s; 
+  }
+  .login-btn:hover,.register-btn:hover {
     background: linear-gradient(to right, #ff4f00, #ff7b00);
     transform: scale(1.05);
   }
 
+  @media (max-width: 600px) {
+    .register-btn{
+      display: none;
+    }
+}
 
 /* Phần chứa user & thông báo */
 .UserSection {

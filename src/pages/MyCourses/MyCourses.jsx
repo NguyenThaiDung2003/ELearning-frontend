@@ -44,7 +44,7 @@ const MyCourses = ({ userId }) => {
                         <h2 className="my-courses-title">Khóa Học Của Tôi</h2>
                         <div className="my-courses-list">
                             {courses.length === 0 ? (
-                                <p>Hiện bạn chưa đăng ký khóa học nào.</p>
+                                <p className="my-courses-list-0">Hiện bạn chưa đăng ký khóa học nào.</p>
                             ) : (
                                 courses.map((course) => (
                                 <div key={course._id} className="my-courses-item">

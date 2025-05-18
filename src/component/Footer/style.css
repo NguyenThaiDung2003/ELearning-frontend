@@ -5,7 +5,18 @@ footer {
     padding: 40px 20px;
   }
   
-
+ .logo-img {
+  height: 60px; 
+  object-fit: contain;
+}
+  
+  .logo-text {
+    font-size: 18px;
+    font-weight: 700;
+    color: #ff7b00;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  }
+  
   .footer-container {
     max-width: 1200px;
     margin: 0 auto;
@@ -13,6 +24,20 @@ footer {
     grid-template-columns: repeat(5, 1fr);
     gap: 20px;
   }
+
+  /* Tablet: Hiển thị 3 cột */
+@media (max-width: 1024px) {
+  .footer-container {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Mobile: Hiển thị 1 cột */
+@media (max-width: 600px) {
+  .footer-container {
+    grid-template-columns: 1fr;
+  }
+}
   
   .footer-container div {
     padding: 10px;

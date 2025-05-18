@@ -176,8 +176,8 @@ const UserProfile = () => {
                                     <InputRow label="Địa chỉ" name="address" value={formData.address} onChange={handleInputChange} />
 
                                     <div className="edit-buttons">
-                                        <button className="save-btn" onClick={handleSave}>Lưu</button>
-                                        <button className="cancel-btn" onClick={() => setEditMode(false)}>Hủy</button>
+                                        <button className="save-btn-profile" onClick={handleSave}>Lưu</button>
+                                        <button className="cancel-btn-profile" onClick={() => setEditMode(false)}>Hủy</button>
                                     </div>
                                 </>
                             ) : (
@@ -187,7 +187,7 @@ const UserProfile = () => {
                                     <InfoRow label="Email" value={user.email} />
                                     <InfoRow label="Ngày sinh" value={user.profile?.birthday} />
                                     <InfoRow label="Địa chỉ" value={user.profile?.address} />
-                                    <button className="edit-btn" onClick={() => setEditMode(true)}>Chỉnh sửa</button>
+                                    <button className="edit-btn-profile" onClick={() => setEditMode(true)}>Chỉnh sửa</button>
                                 </>
                             )}
                         </div>
@@ -210,10 +210,10 @@ const InfoRow = ({ label, value }) => (
 );
 
 const InputRow = ({ label, name, value, onChange }) => (
-    <div className="info-row">
-        <span className="info-label">{label}:</span>
+    <div className="info-row-a">
+        <span className="info-label-a">{label}:</span>
         <input
-            className="info-input"
+            className="info-input-a"
             name={name}
             value={value ?? ""}
             onChange={onChange}

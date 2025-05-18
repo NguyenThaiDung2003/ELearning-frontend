@@ -7,13 +7,13 @@
 .user-profile-container {
     display: flex;
     justify-content: center;
-    margin: 0px ;
+    margin: 10px 10px ;
     padding: 0;
     border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
     font-family: "Segoe UI", sans-serif;
-    background-color: #1e1e1e;
-    width: 100%;
+    background-color: #ffffff;
+    width: 70%;
 }
 /* Sidebar */
 .sidebar-profile {
@@ -36,7 +36,7 @@
   
   .sidebar-profile ul li a {
     text-decoration: none;
-    color: #ffffff;
+    color: #494949;
     font-size: 16px;
     display: block;
     padding: 10px 0;
@@ -47,25 +47,43 @@
     font-weight: bold;
     margin-bottom: 32px;
     text-align: center;
-    color: #ffffff;
+    color: #000000;
 }
 
 .user-profile-content {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    padding: 20px 0;
     min-width: 60%;
     margin-left: 20px;
     gap: 32px;
-    width: 100%;
+    width: 70%;
 }
 
-@media (min-width: 768px) {
+@media (max-width:1150px ) {
     .user-profile-content {
         min-width: none;
-        flex-direction: row;
+        flex-direction: column;
     }
+}
+
+@media (max-width: 800px) {
+
     .user-profile-container{
-        width: 70%;
+    width: 100%;
+    }
+    .info-row-a {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .info-label-a {
+        width: 100%;
+    }
+
+    .info-input-a,
+    .info-value {
+        width: 100%;
     }
 }
 
@@ -88,7 +106,7 @@
 .user-username {
     font-size: 20px;
     font-weight: 600;
-    color: #d8d8d8;
+    color: #2e2e2e;
 }
 
 .user-profile-right {
@@ -96,39 +114,39 @@
     display: flex;
     flex-direction: column;
     gap: 16px;
+    padding-right: 10px;
 }
 
-.info-row {
+.info-row,.info-row-a {
     display: flex;
-    gap: 12px;
     font-size: 16px;
 }
 
-.info-label {
+.info-label,.info-label-a {
     width: 120px;
     font-weight: 500;
-    color: #ffffff;
+    color: #2b2b2b;
     line-height: 40px;
     text-align: left;
 }
 
 .info-value {
-    color: #e0e0e0;
+    color: #303030;
     line-height: 40px;
 }
 
 .info-empty {
-    color: #949494;
+    color: #747474;
     font-style: italic;
 }
 
 .loading-text {
     text-align: center;
-    color: #888;
+    color: #747474;
     font-style: italic;
 }
 
-.edit-btn, .save-btn, .cancel-btn {
+.edit-btn-profile, .save-btn-profile, .cancel-btn-profile {
     margin-top: 20px;
     margin-right: 10px;
     padding: 10px 20px;
@@ -136,34 +154,36 @@
     cursor: pointer;
 }
 
-.save-btn {
+.save-btn-profile,.save-avatar-btn {
     background-color: #4CAF50;
     color: white;
     border: none;
     border-radius: 5px;
 }
 
-.cancel-btn {
+.cancel-btn-profile {
     background-color: #f44336;
     color: white;
     border: none;
     border-radius: 5px;
 }
 
-.edit-btn {
+.edit-btn-profile {
     background-color: #2196F3;
     color: white;
     border: none;
     border-radius: 5px;
 }
 
-.info-input {
+.info-input,.info-input-a {
     flex: 1;
     padding: 8px;
     font-size: 16px;
     border: 1px solid #ccc;
     border-radius: 5px;
 }
+
+
 
 .upload-avatar-btn {
   display: inline-block;

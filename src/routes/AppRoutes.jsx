@@ -32,6 +32,9 @@ const AppRoutes = () => {
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/change-password" element={<ChangePassword />} />
         <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+        <Route path="/my-courses" element={<MyCourses />} />
+
+
 
         {/* ROUTE cho hệ thống quản trị viên */}
         <Route path="/admin" element={<RequireAdmin />} >

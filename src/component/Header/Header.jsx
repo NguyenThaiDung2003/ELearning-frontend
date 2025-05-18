@@ -116,6 +116,9 @@ const Header = () => {
                 <hr />
                 <Link to="/profile">Hồ sơ</Link>
                 <Link to="/my-courses">Khóa học của tôi</Link>
+                {user.role === "Admin" && (
+                  <Link to="/admin" className="admin-link">Quản lý</Link>
+                )}
                 <button className="logout-btn" onClick={handleLogout}>Đăng xuất</button>
               </div>
             </div>

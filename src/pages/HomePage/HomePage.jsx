@@ -19,6 +19,7 @@ const HomePage = () => {
 
   // Lấy danh sách khóa học đã đăng ký của user khi component mount
   useEffect(() => {
+
     const loadRegisteredCourses = async () => {
       try {
         const userCourses = await fetchUserCourses();
@@ -34,6 +35,7 @@ const HomePage = () => {
   // Lấy danh sách tất cả khóa học
   useEffect(() => {
     fetch('https://elearning-backend-2kn5.onrender.com/api/course/get-courses?limit=100')
+
       .then(res => res.json())
       .then(data => setCourses(data.courses))
       .catch(err => toast.error("Lỗi khi tải danh sách khóa học!"));
@@ -71,6 +73,7 @@ const HomePage = () => {
         ? (filters.type === 'Miễn phí' ? course.price === 0 : course.price > 0)
         : true;
       return matchSearch && matchCategory && matchLevel && matchType;
+
     });
 
   const coursesPerPage = 8;

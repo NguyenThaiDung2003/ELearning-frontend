@@ -87,53 +87,41 @@
 
 
 
-
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Header from '../../component/Header/Header';
 import Footer from '../../component/Footer/Footer';
+import { registerCourse, fetchUserCourses } from "../../api/apiRequest";
+import { toast } from 'react-toastify';
 import './CourseList.css';
 
 const CourseList = () => {
   const [courses, setCourses] = useState([]);
-  const [filters, setFilters] = useState({ category: '', level: '', type: '', sort: '' });
+  const [registeredCourses, setRegisteredCourses] = useState([]); // 🔸
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState('');
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch('https://elearning-backend-2kn5.onrender.com/api/course/get-courses')
-      .then(res => res.json())
-      .then(data => setCourses(data.courses))
-      .catch(err => console.error("Lỗi khi tải danh sách khóa học!"));
+    const loadRegisteredCourses = async () => {
+      try {
+        const userCourses = await fetchUserCourses(); // 👈 hàm gọi API lấy khóa học đã đăng ký
+        setRegisteredCourses(userCourses); // lưu full thông tin khóa học
+      } catch (error) {
+        toast.error("Lỗi khi tải khóa học đã đăng ký!");
+      }
+    };
+    loadRegisteredCourses();
   }, []);
-
-  const handleFilterChange = (e) => {
-    setFilters({ ...filters, [e.target.name]: e.target.value });
-    setPage(1);
-  };
 
   const handleSearchChange = (e) => {
     setSearch(e.target.value);
     setPage(1);
   };
 
-  const filteredCourses = courses
-    .filter(course => {
-      const matchSearch = course.name.toLowerCase().includes(search.toLowerCase());
-      const matchCategory = filters.category ? course.category === filters.category : true;
-      const matchLevel = filters.level ? course.level === filters.level : true;
-      const matchType = filters.type
-        ? (filters.type === 'Miễn phí' ? course.price === 0 : course.price > 0)
-        : true;
-      return matchSearch && matchCategory && matchLevel && matchType;
-    })
-    .sort((a, b) => {
-      if (filters.sort === 'Mới nhất') {
-        return new Date(b.createdAt) - new Date(a.createdAt);
-      }
-      return 0;
-    });
+  const filteredCourses = registeredCourses.filter(course =>
+    course.name.toLowerCase().includes(search.toLowerCase())
+  );
 
   const coursesPerPage = 8;
   const totalPages = Math.ceil(filteredCourses.length / coursesPerPage);
@@ -149,73 +137,54 @@ const CourseList = () => {
             type="text"
             value={search}
             onChange={handleSearchChange}
-            placeholder="Tìm kiếm khóa học..."
+            placeholder="Tìm kiếm trong khóa học đã đăng ký..."
             className="search-input"
           />
-          <div className="filters">
-            <select name="category" onChange={handleFilterChange}>
-              <option value="">Danh mục</option>
-              <option>AI</option>
-              <option>Data</option>
-              <option>DevOps</option>
-              <option>Mobile</option>
-              <option>Web</option>
-            </select>
-            <select name="level" onChange={handleFilterChange}>
-              <option value="">Trình độ</option>
-              <option>Dễ</option>
-              <option>Trung bình</option>
-              <option>Khó</option>
-            </select>
-            <select name="type" onChange={handleFilterChange}>
-              <option value="">Hình thức</option>
-              <option>Miễn phí</option>
-              <option>Trả phí</option>
-            </select>
-            <select name="sort" onChange={handleFilterChange}>
-              <option value="">Sắp xếp theo</option>
-              <option>Mới nhất</option>
-            </select>
-          </div>
         </div>
       </div>
 
       <div className="course-grid">
-        {paginatedCourses.map((course) => (
-          <div key={course._id} className="course-card">
-            <img src={course.image} alt={course.name} />
-            <div className="card-body">
-              <h3>{course.name}</h3>
-              <p className="meta">📁 {course.category} | 🎓 {course.level}</p>
-              <p className="price">
-                {course.discountPrice
-                  ? <span>{course.discountPrice.toLocaleString()}đ <s>{course.price.toLocaleString()}đ</s></span>
-                  : course.price === 0
-                    ? 'Miễn phí'
-                    : `${course.price.toLocaleString()}đ`}
-              </p>
-              <p className="uploaded">🕒 {new Date(course.createdAt).toLocaleDateString()}</p>
-              <p className="description">{course.description}</p>
-              <div className="home-buttons">
-                <button
-                  className="btn-register"
-                  onClick={() => navigate(`/courses/${course._id}`)}
-                >
-                  Xem chi tiết
-                </button>
+        {paginatedCourses.length === 0 ? (
+          <p style={{ textAlign: 'center', marginTop: 40 }}>Bạn chưa đăng ký khóa học nào.</p>
+        ) : (
+          paginatedCourses.map((course) => (
+            <div key={course._id} className="course-card">
+              <img src={course.image} alt={course.name} />
+              <div className="card-body">
+                <h3>{course.name}</h3>
+                <p className="meta">📁 {course.category} | 🎓 {course.level}</p>
+                <p className="price">
+                  {course.discountPrice
+                    ? <span>{course.discountPrice.toLocaleString()}đ <s>{course.price.toLocaleString()}đ</s></span>
+                    : course.price === 0
+                      ? 'Miễn phí'
+                      : `${course.price.toLocaleString()}đ`}
+                </p>
+                <p className="uploaded">🕒 {new Date(course.createdAt).toLocaleDateString()}</p>
+                <p className="description">{course.description}</p>
+                <div className="home-buttons">
+                  <button
+                    className="btn-register"
+                    onClick={() => navigate(`/courses/${course._id}`)}
+                  >
+                    Xem chi tiết
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
-        ))}
+          ))
+        )}
       </div>
 
-      <div className="pagination">
-        {Array.from({ length: totalPages }).map((_, i) => (
-          <button key={i + 1} onClick={() => setPage(i + 1)} className={page === i + 1 ? 'active' : ''}>
-            {i + 1}
-          </button>
-        ))}
-      </div>
+      {totalPages > 1 && (
+        <div className="pagination">
+          {Array.from({ length: totalPages }).map((_, i) => (
+            <button key={i + 1} onClick={() => setPage(i + 1)} className={page === i + 1 ? 'active' : ''}>
+              {i + 1}
+            </button>
+          ))}
+        </div>
+      )}
 
       <Footer />
     </div>

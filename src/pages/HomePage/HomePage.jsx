@@ -4,38 +4,38 @@ import 'react-toastify/dist/ReactToastify.css';
 import Header from '../../component/Header/Header';
 import Footer from '../../component/Footer/Footer';
 import './HomePage.css';
-import { registerCourse } from "../../api/apiRequest";
+import { registerCourse, fetchUserCourses } from "../../api/apiRequest";
 import { useNavigate } from 'react-router-dom';
-import { fetchUserCourses } from '../../api/apiRequest';  // <-- import hàm fetchUserCourses
+import qrImage from '../../assets/qr.png';
+import { useSelector } from "react-redux";
+
 
 const HomePage = () => {
+  const user = useSelector((state) => state.auth.login.currentUser?.user); 
   const [courses, setCourses] = useState([]);
   const [registeredCourses, setRegisteredCourses] = useState(new Set());
   const [filters, setFilters] = useState({ category: '', level: '', type: '', sort: '' });
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState('');
   const [loadingCourseId, setLoadingCourseId] = useState(null);
+  const [paymentCourse, setPaymentCourse] = useState(null); // 🔸 khóa học cần thanh toán
   const navigate = useNavigate();
 
-  // Lấy danh sách khóa học đã đăng ký của user khi component mount
   useEffect(() => {
-
     const loadRegisteredCourses = async () => {
       try {
         const userCourses = await fetchUserCourses();
         const registeredIds = new Set(userCourses.map(c => c._id));
         setRegisteredCourses(registeredIds);
       } catch (error) {
-        toast.error("Lỗi khi tải khóa học đã đăng ký!");
+        // toast.error("Lỗi khi tải khóa học đã đăng ký!");
       }
     };
     loadRegisteredCourses();
   }, []);
 
-  // Lấy danh sách tất cả khóa học
   useEffect(() => {
     fetch('https://elearning-backend-2kn5.onrender.com/api/course/get-courses?limit=100')
-
       .then(res => res.json())
       .then(data => setCourses(data.courses))
       .catch(err => toast.error("Lỗi khi tải danh sách khóa học!"));
@@ -51,30 +51,37 @@ const HomePage = () => {
     setPage(1);
   };
 
-  const handleRegister = async (courseId) => {
+  const handleRegister = async (course) => {
+      if (!user) {
+    navigate('/login');
+    return;
+    }
+
+    if (course.price > 0) {
+      setPaymentCourse(course); // 🔸 mở khung QR
+      return;
+    }
     try {
-      setLoadingCourseId(courseId);
-      await registerCourse(courseId);
-      setRegisteredCourses(prev => new Set(prev).add(courseId));
-      navigate(`/course/${courseId}`);
+      setLoadingCourseId(course._id);
+      await registerCourse(course._id);
+      setRegisteredCourses(prev => new Set(prev).add(course._id));
+      navigate(`/course/${course._id}`);
     } catch (error) {
-      // toast hoặc alert đã có trong registerCourse rồi, có thể không cần làm gì thêm
+      // error đã xử lý trong registerCourse
     } finally {
       setLoadingCourseId(null);
     }
   };
 
-  const filteredCourses = courses
-    .filter(course => {
-      const matchSearch = course.name.toLowerCase().includes(search.toLowerCase());
-      const matchCategory = filters.category ? course.category === filters.category : true;
-      const matchLevel = filters.level ? course.level === filters.level : true;
-      const matchType = filters.type
-        ? (filters.type === 'Miễn phí' ? course.price === 0 : course.price > 0)
-        : true;
-      return matchSearch && matchCategory && matchLevel && matchType;
-
-    });
+  const filteredCourses = courses.filter(course => {
+    const matchSearch = course.name.toLowerCase().includes(search.toLowerCase());
+    const matchCategory = filters.category ? course.category === filters.category : true;
+    const matchLevel = filters.level ? course.level === filters.level : true;
+    const matchType = filters.type
+      ? (filters.type === 'Miễn phí' ? course.price === 0 : course.price > 0)
+      : true;
+    return matchSearch && matchCategory && matchLevel && matchType;
+  });
 
   const coursesPerPage = 8;
   const totalPages = Math.ceil(filteredCourses.length / coursesPerPage);
@@ -91,13 +98,13 @@ const HomePage = () => {
       </div>
 
       <div className="search-filter">
-        <div className="search-container">
+        <div className="search-container-a">
           <input
             type="text"
             value={search}
             onChange={handleSearchChange}
             placeholder="Tìm kiếm khóa học..."
-            className="search-input"
+            className="search-input-a"
           />
           <div className="filters">
             <select name="category" onChange={handleFilterChange}>
@@ -144,13 +151,19 @@ const HomePage = () => {
                 <div className="home-buttons">
                   <button
                     className="btn-register"
-                    onClick={() => handleRegister(course._id)}
-                    disabled={isRegistered || loadingCourseId === course._id}
-                    style={{ backgroundColor: isRegistered ? "#ccc" : undefined }}
+                    onClick={() => {
+                      if (isRegistered) {
+                        navigate(`/courses/${course._id}`);
+                      } else {
+                        handleRegister(course);
+                      }
+                    }}
+                    disabled={loadingCourseId === course._id}
+                    style={{ backgroundColor: isRegistered ? "#6245b1" : undefined }}
                   >
-                    {isRegistered
-                      ? "Đã đăng ký"
-                      : (loadingCourseId === course._id ? "Đang xử lý..." : "Đăng ký")}
+                    {loadingCourseId === course._id
+                      ? "Đang xử lý..."
+                      : (isRegistered ? "Xem chi tiết" : "Đăng ký")}
                   </button>
                 </div>
               </div>
@@ -167,12 +180,28 @@ const HomePage = () => {
         ))}
       </div>
 
+      {/* 🔸 Khung QR thanh toán khi chọn khóa học trả phí */}
+      {paymentCourse && (
+        <div className="qr-modal">
+          <div className="qr-content">
+            <h3>Thanh toán khóa học: {paymentCourse.name}</h3>
+            <p>Vui lòng quét mã QR để thanh toán {paymentCourse.discountPrice || paymentCourse.price}đ</p>
+            <img src={qrImage} alt="QR Code" style={{ width: '200px' }} />
+
+            <div style={{ marginTop: 16 }}>
+              <button onClick={() => setPaymentCourse(null)}>Đóng</button>
+            </div>
+          </div>
+        </div>
+      )}
+
       <Footer />
     </div>
   );
 };
 
 export default HomePage;
+
 
 
 

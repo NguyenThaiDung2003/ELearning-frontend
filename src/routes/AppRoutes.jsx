@@ -20,13 +20,14 @@ import CourseDetail from "../pages/CourseDetail/CourseDetail.jsx";
 import LessonView from "../pages/LessonView/LessonView.jsx";
 import QuizPage from "../pages/QuizPage/QuizPage.jsx";
 import EditCourse from "../pages/Admin/CRUDCourse/EditCourse.jsx";
-
+// import HomePage from "../pages/HomePage/HomePage.jsx";
 
 const AppRoutes = () => {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<CourseList />} />
+        <Route path="/" element={<HomePage />} />
+        <Route path="/courses" element={<CourseList />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/profile" element={<ProfilePage />} />

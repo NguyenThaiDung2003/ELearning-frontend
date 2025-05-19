@@ -1,6 +1,23 @@
 
-.course-list-page {
+.home-page {
   font-family: sans-serif;
+}
+
+.hero-section {
+  background: #eef2ff;
+  text-align: center;
+  padding: 3rem 1rem;
+  color: #1e3a8a;
+}
+
+.hero-section h1 {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.hero-section p {
+  font-size: 1.2rem;
+  margin-bottom: 1.5rem;
 }
 
 .search-filter {
@@ -13,9 +30,12 @@
   max-width: 1200px;
   margin: auto;
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
   gap: 1rem;
+  align-items: center;
+  justify-content: space-between;
 }
+
 .search-input {
   flex: 1 1 60%;
   padding: 0.5rem 1rem;
@@ -23,26 +43,18 @@
   border-radius: 12px;
 }
 
-
 .filters {
   display: flex;
   justify-content: center;
-  align-items: center;
   flex-wrap: wrap;
-  gap: 0.75rem;
-  padding: 0.5rem 0rem;
-  margin: 0 auto;
-  max-width: 100%;
 }
 
 .filters select {
-  flex: 1 1 auto;
-  /* min-width: 10px; */
+  margin-left: 0.5rem;
   padding: 0.5rem;
   border-radius: 10px;
   border: 1px solid #ccc;
 }
-
 
 .filters select:focus {
   outline: 2px solid #479b37;
@@ -74,7 +86,7 @@
 }
 
 .course-card:hover {
-  box-shadow: 0 4px 12px rgba(39, 134, 134, 0.1);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
 
 .course-card img {
@@ -87,17 +99,15 @@
   display: flex;
   flex-direction: column;
   height: 100%;
+  padding: 1rem;
 }
 
 .card-body h3 {
   color: #1d4ed8;
-  text-transform: uppercase;
+  text-transform: none;
   margin-bottom: 0.5rem;
-}
-
-.instructor {
-  font-size: 0.9rem;
-  color: #555;
+  font-size: 1.1rem;
+  font-weight: bold;
 }
 
 .meta {
@@ -106,33 +116,61 @@
   margin: 0.25rem 0;
 }
 
+.description {
+  font-size: 0.9rem;
+  color: #444;
+  margin-top: 0.25rem;
+  margin-bottom: 0.5rem;
+  min-height: 48px;
+}
+
 .uploaded {
   font-size: 0.8rem;
   color: #888;
 }
 
-.rating {
-  color: #f59e0b;
-}
-
 .price {
   color: #10b981;
   font-weight: bold;
+  margin: 0.25rem 0;
 }
 
-.btn-detail {
+.home-buttons {
+  display: flex;
+  gap: 0.5rem;
   margin-top: auto;
-  width: 100%;
+}
+
+.home-buttons button {
+  flex: 1;
+  height: 42px;
   padding: 0.5rem;
-  background-color: #2563eb;
-  color: white;
+  font-size: 0.95rem;
+  font-weight: bold;
   border: none;
   border-radius: 8px;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.btn-detail:hover {
-  background-color: #1d4ed8;
+.btn-intro {
+  background-color: #f59e0b;
+  color: white;
+}
+
+.btn-intro:hover {
+  background-color: #d97706;
+}
+
+.btn-register {
+  background-color: #10b981;
+  color: white;
+}
+
+.btn-register:hover {
+  background-color: #059669;
 }
 
 .pagination {
@@ -158,6 +196,30 @@
   font-weight: bold;
 }
 
+/* --- Button override for registered --- */
+.btn-register {
+  background-color: #10b981;
+  color: white;
+  font-weight: bold;
+  font-size: 0.95rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  padding: 0.5rem;
+  flex: 1;
+  height: 42px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
+.btn-register:hover {
+  background-color: #059669;
+}
 
-
+/* Khi đã đăng ký: màu xám và không hover */
+.btn-register:disabled {
+  background-color: #ccc !important;
+  color: #666;
+  cursor: not-allowed;
+}

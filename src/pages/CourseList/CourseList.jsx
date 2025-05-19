@@ -128,12 +128,12 @@ const CourseList = () => {
         : true;
       return matchSearch && matchCategory && matchLevel && matchType;
     })
-    // .sort((a, b) => {
-    //   if (filters.sort === 'Mới nhất') {
-    //     return new Date(b.createdAt) - new Date(a.createdAt);
-    //   }
-    //   return 0;
-    // });
+    .sort((a, b) => {
+      if (filters.sort === 'Mới nhất') {
+        return new Date(b.createdAt) - new Date(a.createdAt);
+      }
+      return 0;
+    });
 
   const coursesPerPage = 8;
   const totalPages = Math.ceil(filteredCourses.length / coursesPerPage);
@@ -172,10 +172,10 @@ const CourseList = () => {
               <option>Miễn phí</option>
               <option>Trả phí</option>
             </select>
-            {/* <select name="sort" onChange={handleFilterChange}>
+            <select name="sort" onChange={handleFilterChange}>
               <option value="">Sắp xếp theo</option>
               <option>Mới nhất</option>
-            </select> */}
+            </select>
           </div>
         </div>
       </div>

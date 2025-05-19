@@ -13,10 +13,8 @@
   max-width: 1200px;
   margin: auto;
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
   gap: 1rem;
-  align-items: center;
-  justify-content: space-between;
 }
 .search-input {
   flex: 1 1 60%;
@@ -25,17 +23,26 @@
   border-radius: 12px;
 }
 
+
 .filters {
   display: flex;
-  justify-content: center;        
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  padding: 0.5rem 0rem;
+  margin: 0 auto;
+  max-width: 100%;
 }
 
 .filters select {
-  margin-left: 0.5rem;
+  flex: 1 1 auto;
+  /* min-width: 10px; */
   padding: 0.5rem;
   border-radius: 10px;
   border: 1px solid #ccc;
 }
+
 
 .filters select:focus {
   outline: 2px solid #479b37;
@@ -150,5 +157,7 @@
   border-color: #2563eb;
   font-weight: bold;
 }
+
+
 
 

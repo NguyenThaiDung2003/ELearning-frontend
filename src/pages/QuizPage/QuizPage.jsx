@@ -1,21 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import Header from '../../component/Header/Header';
 import Footer from '../../component/Footer/Footer';
+import questions from './quiz.json';
 import './QuizPage.css';
-
-const questions = [
-  {
-    question: 'JSX là gì?',
-    options: ['Một thư viện CSS', 'Cách viết HTML trong JavaScript', 'Trình biên dịch Babel', 'Một hàm của React'],
-    answer: 1
-  },
-  {
-    question: 'Props trong React có thể:',
-    options: ['Thay đổi trực tiếp', 'Chỉ đọc', 'Dùng để lưu trạng thái', 'Gọi API'],
-    answer: 1
-  }
-];
 
 const QuizPage = () => {
   const { id, quizId } = useParams();
@@ -40,7 +28,7 @@ const QuizPage = () => {
     <div className="quiz-page">
       <Header />
       <div className="quiz-container">
-        <h2>Quiz bài {quizId}</h2>
+        <h2>Bài kiểm tra hôm nay</h2>
 
         {!submitted ? (
           <div className="question-box">

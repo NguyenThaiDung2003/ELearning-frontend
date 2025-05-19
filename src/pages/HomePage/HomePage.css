@@ -1,3 +1,4 @@
+
 .home-page {
   font-family: sans-serif;
 }
@@ -45,6 +46,7 @@
 .filters {
   display: flex;
   justify-content: center;
+  flex-wrap: wrap;
 }
 
 .filters select {
@@ -102,13 +104,10 @@
 
 .card-body h3 {
   color: #1d4ed8;
-  text-transform: uppercase;
+  text-transform: none;
   margin-bottom: 0.5rem;
-}
-
-.instructor {
-  font-size: 0.9rem;
-  color: #555;
+  font-size: 1.1rem;
+  font-weight: bold;
 }
 
 .meta {
@@ -117,18 +116,23 @@
   margin: 0.25rem 0;
 }
 
+.description {
+  font-size: 0.9rem;
+  color: #444;
+  margin-top: 0.25rem;
+  margin-bottom: 0.5rem;
+  min-height: 48px;
+}
+
 .uploaded {
   font-size: 0.8rem;
   color: #888;
 }
 
-.rating {
-  color: #f59e0b;
-}
-
 .price {
   color: #10b981;
   font-weight: bold;
+  margin: 0.25rem 0;
 }
 
 .home-buttons {
@@ -137,16 +141,23 @@
   margin-top: auto;
 }
 
-.btn-intro {
+.home-buttons button {
   flex: 1;
+  height: 42px;
+  padding: 0.5rem;
+  font-size: 0.95rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-intro {
   background-color: #f59e0b;
   color: white;
-  padding: 0.5rem;
-  border-radius: 8px;
-  font-weight: bold;
-  cursor: pointer;
-  font-size: 0.95rem;
-  border: none;
 }
 
 .btn-intro:hover {
@@ -154,15 +165,8 @@
 }
 
 .btn-register {
-  flex: 1;
   background-color: #10b981;
   color: white;
-  padding: 0.5rem;
-  border-radius: 8px;
-  font-weight: bold;
-  cursor: pointer;
-  font-size: 0.95rem;
-  border: none;
 }
 
 .btn-register:hover {
@@ -192,16 +196,30 @@
   font-weight: bold;
 }
 
-.home-buttons button {
-  flex: 1;
-  height: 42px;
-  padding: 0.5rem;
-  font-size: 0.95rem;
+/* --- Button override for registered --- */
+.btn-register {
+  background-color: #10b981;
+  color: white;
   font-weight: bold;
+  font-size: 0.95rem;
   border: none;
   border-radius: 8px;
   cursor: pointer;
+  padding: 0.5rem;
+  flex: 1;
+  height: 42px;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+}
+
+.btn-register:hover {
+  background-color: #059669;
+}
+
+/* Khi đã đăng ký: màu xám và không hover */
+.btn-register:disabled {
+  background-color: #ccc !important;
+  color: #666;
+  cursor: not-allowed;
 }

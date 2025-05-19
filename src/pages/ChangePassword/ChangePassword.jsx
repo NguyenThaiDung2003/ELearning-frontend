@@ -46,20 +46,20 @@ const ChangePassword = () => {
         <div>
             <Header />
             <div class="wrapper">
-                <div className="user-profile-container">
+                <div className="password-change-container">
 
-                    <div className="sidebar">
+                    <div className="sidebar-cp">
                         <ul>
                             <li><a href="/">Trang chủ</a></li>
                             <li><a href="/profile">Thông tin cá nhân</a></li>
                             <li><a href="/change-password" style={{ color: '#EF5350' }}>Đổi mật khẩu</a></li>
                             <li><a href="#">Lịch sử thanh toán</a></li>
                             <li><a href="#">Bình luận</a></li>
-                            <li><a href="#">Khóa học của tôi</a></li>
+                            <li><a href="/my-courses">Khóa học của tôi</a></li>
                         </ul>
                     </div>
 
-                    <div className="password-change-container">
+                    <div className="password-change-content">
                         <div className="password-change-right">
                             <h1 className="password-change-header">Thay đổi mật khẩu</h1>
 

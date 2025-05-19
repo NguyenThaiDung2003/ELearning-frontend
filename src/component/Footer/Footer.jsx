@@ -1,4 +1,5 @@
 import { FaFacebook, FaYoutube, FaTiktok } from "react-icons/fa";
+import logo from "../../assets/logo.png";
 import "./style.css"; 
 
 const Footer = () => {
@@ -8,7 +9,8 @@ const Footer = () => {
 
         <div>
           <div className="footer-logo">
-            <div>E</div>
+            <img src={logo} alt="BK-Study Logo" className="logo-img" />
+            {/* <span className="logo-text">BK-Study</span> */}
             <span>Học Mọi Lúc, Nâng Tầm Tương Lai!</span>
           </div>
           <p><strong>Điện thoại:</strong> 08 1489 8945</p>

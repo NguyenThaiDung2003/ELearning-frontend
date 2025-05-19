@@ -1,0 +1,52 @@
+[
+  {
+    "question": "React là gì?",
+    "options": [
+      "Một framework backend",
+      "Thư viện JavaScript để xây dựng giao diện người dùng",
+      "Trình biên dịch JavaScript",
+      "Thư viện để xử lý cơ sở dữ liệu"
+    ],
+    "answer": 1
+  },
+  {
+    "question": "JSX trong React là gì?",
+    "options": [
+      "Một định dạng dữ liệu giống JSON",
+      "Cách viết HTML trong JavaScript",
+      "Một hàm xử lý sự kiện",
+      "Một hook trong React"
+    ],
+    "answer": 1
+  },
+  {
+    "question": "State trong React được dùng để làm gì?",
+    "options": [
+      "Lưu trữ dữ liệu có thể thay đổi trong component",
+      "Chia sẻ dữ liệu giữa các file JS",
+      "Định nghĩa CSS cho component",
+      "Lưu token người dùng"
+    ],
+    "answer": 0
+  },
+  {
+    "question": "Props trong React là gì?",
+    "options": [
+      "Dữ liệu không thể thay đổi truyền vào component",
+      "Biến toàn cục",
+      "Một loại state có thể cập nhật",
+      "Đối tượng chứa các hook"
+    ],
+    "answer": 0
+  },
+  {
+    "question": "Hook useEffect dùng để làm gì?",
+    "options": [
+      "Thực thi side effects như gọi API hoặc gán sự kiện",
+      "Khởi tạo props",
+      "Tạo component mới",
+      "Định nghĩa các biến toàn cục"
+    ],
+    "answer": 0
+  }
+]

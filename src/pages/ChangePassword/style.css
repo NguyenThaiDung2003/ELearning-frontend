@@ -5,19 +5,19 @@
     align-items: center;
 }
 
-.user-profile-container {
+.password-change-container {
     display: flex;
     justify-content: center;
-    margin: 0px ;
+    margin: 10px 10px ;
     padding: 0 ;
     border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
     font-family: "Segoe UI", sans-serif;
-    background-color: #1e1e1e;
+    background-color: #ffffff;
     width: 100%;
 }
 /* Sidebar */
-.sidebar {
+.sidebar-cp {
     width: 250px;
     padding: 20px;
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
@@ -25,34 +25,34 @@
   }
   
 
-  .sidebar ul {
+  .sidebar-cp ul {
     list-style: none;
     padding: 0;
   }
   
-  .sidebar ul li {
+  .sidebar-cp ul li {
     margin-bottom: 10px;
     border-bottom: 1px solid #606060; /* Kẻ ngang ngăn cách các mục trong sidebar */
   }
   
-  .sidebar ul li a {
+  .sidebar-cp ul li a {
     text-decoration: none;
-    color: #ffffff;
+    color: #494949;
     font-size: 16px;
     display: block;
     padding: 10px 0;
   }
-  
+   .sidebar-cp ul li:hover{
+    background-color: #747474;
+   }
 
 /* Change Password *******************************/
 
-.password-change-container {
+.password-change-content {
     display: flex;
     justify-content: center;
     margin: 0px;
     padding: 24px;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     font-family: "Segoe UI", sans-serif;
 }
 
@@ -62,24 +62,25 @@
     font-weight: bold;
     margin-bottom: 32px;
     text-align: center;
-    color: #ffffff;
+    color: #000000;
 }
 
-.password-change-container {
+.password-change-content {
     display: flex;
     flex-direction: column;
     min-width: 60%;
     margin-left: 20px;
     gap: 32px;
+    width: 100%;
 }
 
-@media (min-width: 768px) {
-    .password-change-container {
+@media (min-width: 800px) {
+    .password-change-content {
         min-width: none;
         flex-direction: row;
         align-items: flex-start;
     }
-    .user-profile-container{
+    .password-change-container{
         width: 70%;
     }
 }
@@ -110,7 +111,7 @@
 .password-change-title {
     font-size: 20px;
     font-weight: 600;
-    color: #d8d8d8;
+    color: #000000;
     margin-top: 10px;
 }
 
@@ -130,7 +131,7 @@
 .input-label {
     width: 180px;
     font-weight: 500;
-    color: #ffffff;
+    color: #2b2b2b;
     line-height: 56px;
     text-align: left;
 }
@@ -169,4 +170,23 @@
 
 .success-message {
     color: green;
+}
+
+@media (max-width: 767px) {
+
+  .input-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+
+  .input-label {
+    width: 100%;
+    line-height: normal;
+    text-align: left;
+  }
+
+  .input-field {
+    width: 100%;
+  }
 }

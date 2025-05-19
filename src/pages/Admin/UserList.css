@@ -1,93 +1,185 @@
-.user-list-container {
-    padding: 20px;
-    max-width: 800px;
-    margin: 0 auto;
-  }
-  
-  .user-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-  
-  .user-item {
+.user-list-title {
+
     display: flex;
     align-items: center;
-    padding: 12px;
-    border-bottom: 1px solid #ccc;
-    cursor: pointer;
-    transition: background 0.2s;
+    justify-content: left;
+    margin: 4vw 0 3vw 5vw;
+    width: max-content;
+}
+
+  .ad-search-input {
+    padding: 5px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    background-color: #f0f0f0;
+    color: #242424;
+    font-size: 16px;
   }
-  
-  .user-item:hover {
-    background-color: #2a2a2a;
-  }
-  
-  .avatar {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    margin-right: 15px;
-    object-fit: cover;
-  }
-  
-  .modal-overlay {
-    position: fixed;
+
+  .ad-search-input-container {
+    position: absolute;
     top: 0;
-    left: 0;
+    right: 0;
     width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
+    max-width: 300px;
+    margin: 0 auto;
     display: flex;
-    justify-content: center;
+    justify-content: left;
     align-items: center;
-    z-index: 999;
   }
-  
-  .modal-content {
-    background-color: #2a2a2a;
-    padding: 25px;
-    border-radius: 10px;
-    width: 300px;
-    position: relative;
-  }
-  
-  .modal-avatar {
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    display: block;
-    margin: 10px auto;
-  }
-  
-  .btn-group {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 20px;
-  }
-  
-  .btn-group button {
-    padding: 8px 12px;
+
+  .ad-search-button {
+    background-color: #242424; 
+    color: white;
     border: none;
-    border-radius: 5px;
+    padding: 5px;
+    border-radius: 8px;
     cursor: pointer;
+    font-weight: bold;
   }
-  
-  .btn-group button:first-child {
-    background-color: #3498db;
-    color: white;
+
+.user-list-title h1 {
+    font-size: calc(20px + 1vw);
+    color: #2a2a2a;
+}
+
+.user-table {
+  width: 90%;
+  margin: 0 5vw ;
+  border-collapse: collapse;
+  /* background: #fff; */
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.user-table th,
+.user-table td {
+  padding: 12px;
+  border-bottom: none;
+  text-align: left;
+  color: #242424;
+}
+
+.user-table th {
+  /* background: #f5f5f5; */
+  color: #242424
+}
+
+.user-table tbody tr:nth-child(even) {
+  background-color: #fff; /* Màu cho dòng chẵn */
+}
+
+.user-table tbody tr:nth-child(odd) {
+  background-color: #eee; /* Màu cho dòng lẻ */
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
+/* Modal */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-close-btn {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: #242424;
+  transition: color 0.2s ease;
+}
+
+.modal-close-btn:hover {
+  color: #fff;
+}
+.modal-content {
+  position: relative;
+  background: #eee;
+  padding: 20px;
+  border-radius: 12px;
+  width: 50%;
+  min-width: 300px;
+}
+
+.modal-content input, .modal-content select {
+  border-radius: 12px;
+  border: none;
+  display: block;
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 12px;
+  background-color: #ddd;
+  color: #242424;
+}
+
+.modal-content h3{
+  color: #242424;
+  font-size: calc(10px + 1vw);
+  margin-bottom: 20px;
+}
+.modal-content h4 {
+  text-align: left;
+  align-self: flex-start;
+  margin-bottom: 5px;
+  color: #242424;
+  font-size: 14px;
+  font-weight: 600;
+  margin-left: 5px;
+}
+
+.btn-group {
+  margin-top: 60px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.user-list-button {
+  background-color: transparent;
+  color: #242424;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.user-list-button:hover {
+  color: #777;
+}
+
+.user-save {
+  background-color: #4CAF50; 
+  color: white;
+}
+
+.user-cancel {
+  background-color: #f44336; 
+  color: white;
+}
+
+@media screen and (max-width: 768px) {
+  .ad-search-input-container {
+    position: relative;
+    max-width: 100%;
+    padding: 10px 15px;
+    margin: 0;
+    display: flex;
+    justify-content: right;
+
+    align-items: center;
   }
-  
-  .btn-group button:last-child {
-    background-color: #e74c3c;
-    color: white;
-  }
-  .modal-content input {
-    width: 100%;
-    padding: 8px;
-    margin: 8px 0;
-    box-sizing: border-box;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-  }
-  
+}

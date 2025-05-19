@@ -21,14 +21,12 @@ const RegisterPage = () => {
 
   const handleRegister = (e) => {
     e.preventDefault();
-    if (password !== confirmPassword) {
-      alert("Mật khẩu xác nhận không khớp!");
-      return;
-    }
+    
     const newUser = {
       userName: username,
       email: email,
       password: password,
+      confirmPassword: confirmPassword,
     };
     registerUser(newUser, dispatch, navigate);
   };
@@ -38,7 +36,7 @@ const RegisterPage = () => {
       <Header />
       <div className="register-container">
         <main className="register-box">
-          <h1 className="title">Đăng Ký</h1>
+          <h1 className="title-register">Đăng Ký</h1>
           <form onSubmit={handleRegister} className="register-form">
             <input
               type="text"

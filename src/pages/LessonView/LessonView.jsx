@@ -55,8 +55,8 @@ const LessonView = () => {
           <div className="video-section">
             <h2>{lesson.title}</h2>
             <iframe
-              width="100%"
-              height="600"
+              width="90%"
+              height="500px"
               src="https://www.youtube.com/embed/x0fSBAgBrOQ"
               title="YouTube video player"
               frameBorder="0"

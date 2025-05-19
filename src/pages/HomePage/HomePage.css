@@ -27,7 +27,7 @@
 }
 
 .search-container {
-  max-width: 1200px;
+  width: 1200px;
   margin: auto;
   display: flex;
   flex-wrap: wrap;
@@ -37,7 +37,8 @@
 }
 
 .search-input {
-  flex: 1 1 60%;
+  width: 490px;
+  flex: 1 1 100%;
   padding: 0.5rem 1rem;
   border: 1px solid #ccc;
   border-radius: 12px;
@@ -222,4 +223,14 @@
   background-color: #ccc !important;
   color: #666;
   cursor: not-allowed;
+}
+
+
+.course-card img {
+  width: 100%;
+  height: 180px;           /* Đảm bảo mọi ảnh cùng chiều cao */
+  max-height: 180px;       /* Không cao hơn */
+  min-height: 180px;       /* Không thấp hơn */
+  object-fit: cover;       /* Cắt ảnh cho vừa khung */
+  display: block;          /* Loại bỏ khoảng trống dưới ảnh */
 }

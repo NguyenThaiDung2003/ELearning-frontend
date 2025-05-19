@@ -14,7 +14,7 @@ const HomePage = () => {
   const [loadingCourseId, setLoadingCourseId] = useState(null);
 
   useEffect(() => {
-    fetch('https://elearning-backend-2kn5.onrender.com/api/course/get-courses')
+    fetch('https://elearning-backend-2kn5.onrender.com/api/course/get-courses?page=1&limit=100')
       .then(res => res.json())
       .then(data => setCourses(data.courses))
       .catch(err => toast.error("Lỗi khi tải danh sách khóa học!"));
@@ -33,7 +33,7 @@ const HomePage = () => {
   const handleRegister = async (courseId) => {
     try {
       setLoadingCourseId(courseId);
-      const res = await fetch("https://elearning-backend-2kn5.onrender.com/api/course/my-courses");
+      const res = await fetch("fetch('https://elearning-backend-2kn5.onrender.com/api/course/get-courses?page=1&limit=100')");
       const data = await res.json();
       toast.success("Đăng ký thành công!");
       setRegisteredCourses(prev => new Set(prev).add(courseId));
@@ -54,12 +54,12 @@ const HomePage = () => {
         : true;
       return matchSearch && matchCategory && matchLevel && matchType;
     })
-    // .sort((a, b) => {
-    //   if (filters.sort === 'Mới nhất') {
-    //     return new Date(b.createdAt) - new Date(a.createdAt);
-    //   }
-    //   return 0;
-    // });
+    .sort((a, b) => {
+      if (filters.sort === 'Mới nhất') {
+        return new Date(b.createdAt) - new Date(a.createdAt);
+      }
+      return 0;
+    });
 
   const coursesPerPage = 8;
   const totalPages = Math.ceil(filteredCourses.length / coursesPerPage);
@@ -104,10 +104,10 @@ const HomePage = () => {
               <option>Miễn phí</option>
               <option>Trả phí</option>
             </select>
-            {/* <select name="sort" onChange={handleFilterChange}>
+            <select name="sort" onChange={handleFilterChange}>
               <option value="">Sắp xếp theo</option>
               <option>Mới nhất</option>
-            </select> */}
+            </select>
           </div>
         </div>
       </div>

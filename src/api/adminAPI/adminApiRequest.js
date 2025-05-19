@@ -2,7 +2,6 @@ import axios from "axios";
 import { axiosJWT } from "../axiosJWT";
 import { store } from "../../redux/store";
 
-
 const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 // Lấy danh sách khóa học

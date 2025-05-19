@@ -3,6 +3,9 @@ import { useParams, useNavigate } from 'react-router-dom';
 import Header from '../../component/Header/Header';
 import Footer from '../../component/Footer/Footer';
 import './LessonView.css';
+import { axiosJWT } from "../../api/axiosJWT"
+import axios from "axios";
+import { store } from "../../redux/store";
 
 const LessonView = () => {
   const { id: courseId, lessonId } = useParams();
@@ -10,18 +13,38 @@ const LessonView = () => {
   const [lessons, setLessons] = useState([]);
   const [lesson, setLesson] = useState(null);
   const [loading, setLoading] = useState(true);
+  const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
-  useEffect(() => {
-    fetch(`https://elearning-backend-2kn5.onrender.com/api/lesson/lessons-by-course/${courseId}`)
-      .then(res => res.json())
-      .then(data => {
-        setLessons(data);
-        const selected = data.find(l => l._id === lessonId);
-        setLesson(selected || null);
-      })
-      .catch(err => console.error("Lỗi khi tải bài học:", err))
-      .finally(() => setLoading(false));
-  }, [courseId, lessonId]);
+  const convertToEmbedUrl = (url) => {
+  const match = url.match(/v=([^&]+)/);
+  return match ? `https://www.youtube.com/embed/${match[1]}` : '';
+};
+
+ useEffect(() => {
+  const fetchLessons = async () => {
+    try {
+         const user = store.getState().auth.login?.currentUser;
+      const res = await axiosJWT.get(`${BASE_URL}/api/lesson/lessons-by-course/${courseId}`, {
+        headers: {
+            Authorization: `Bearer ${user?.accessToken}`,
+        },
+    });
+ 
+      const data = res.data;
+         console.log(data);
+      setLessons(data);
+      const selected = data.find(l => l._id === lessonId);
+      setLesson(selected || null);
+      console.log()
+    } catch (err) {
+      console.error("Lỗi khi tải bài học:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  fetchLessons();
+}, [courseId, lessonId]);
 
   if (loading) {
     return (
@@ -57,7 +80,7 @@ const LessonView = () => {
             <iframe
               width="100%"
               height="600"
-              src="https://www.youtube.com/embed/x0fSBAgBrOQ"
+               src={convertToEmbedUrl(lesson?.videos?.[0]?.url)}
               title="YouTube video player"
               frameBorder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -76,12 +99,7 @@ const LessonView = () => {
             <textarea rows="5" placeholder="Viết ghi chú tại đây..."></textarea>
           </div>
 
-          <div className="tab">
-            <h3>Quiz</h3>
-            <a href={`/courses/${courseId}/quiz/${lessonId}`} className="quiz-button">
-              Làm bài kiểm tra
-            </a>
-          </div>
+    
         </div>
       </div>
       <Footer />

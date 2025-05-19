@@ -3,36 +3,53 @@ import { useParams, useNavigate } from 'react-router-dom';
 import Header from '../../component/Header/Header';
 import Footer from '../../component/Footer/Footer';
 import './CourseDetail.css';
-
+import { axiosJWT } from "../../api/axiosJWT"
+import axios from "axios";
+import { store } from "../../redux/store";
 const CourseDetail = () => {
   const { id } = useParams();  // courseId
   const navigate = useNavigate();
   const [course, setCourse] = useState(null);
   const [lessons, setLessons] = useState([]);
+  const [quizzes, setQuizzes] = useState([]);
   const [loading, setLoading] = useState(true);
+  const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        // Gọi API để lấy danh sách khóa học
-        const courseRes = await fetch('https://elearning-backend-2kn5.onrender.com/api/course/get-courses');
-        const courseData = await courseRes.json();
-        const foundCourse = courseData.courses.find((c) => c._id === id);
-        setCourse(foundCourse);
+useEffect(() => {
+  const fetchData = async () => {
+    try {
+      // Lấy danh sách khóa học
+         const user = store.getState().auth.login?.currentUser;
+      const courseRes = await axiosJWT.get(`${BASE_URL}/api/course/get-courses`);
+      const courseData = courseRes.data;
+      const foundCourse = courseData.courses.find((c) => c._id === id);
+      setCourse(foundCourse);
 
-        // Gọi API để lấy bài học theo courseId
-        const lessonRes = await fetch(`https://elearning-backend-2kn5.onrender.com/api/lesson/lessons-by-course/${id}`);
-        const lessonData = await lessonRes.json();
-        setLessons(lessonData || []);
-      } catch (error) {
-        console.error("Lỗi khi tải dữ liệu:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
+      // Lấy danh sách bài học
+      const lessonRes = await axiosJWT.get(`${BASE_URL}/api/lesson/lessons-by-course/${id}`,{
+        headers: {
+            Authorization: `Bearer ${user?.accessToken}`,
+        },
+    });
+      setLessons(lessonRes.data || []);
+      console.log(lessonRes.data);
 
-    fetchData();
-  }, [id]);
+      // Lấy danh sách quiz
+      const quizRes = await axiosJWT.get(`${BASE_URL}/api/quiz/quizzes-by-course/${id}`,{
+        headers: {
+            Authorization: `Bearer ${user?.accessToken}`,
+        },
+    });
+      setQuizzes(quizRes.data || []);
+    } catch (error) {
+      console.error("Lỗi khi tải dữ liệu:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  fetchData();
+}, [id]);
 
   if (loading) {
     return (
@@ -77,6 +94,19 @@ const CourseDetail = () => {
                   onClick={() => navigate(`/courses/${id}/lesson/${lesson._id}`)}
                 >
                   📘 {lesson.title}
+                </button>
+              </li>
+            ))}
+          </ul>
+          <h2>Quiz kiểm tra</h2>
+          <ul className="lesson-list">
+            {quizzes.map((quiz) => (
+              <li key={quiz._id}>
+                <button
+                  className="lesson-link"
+                  onClick={() => navigate(`/courses/${id}/quiz/${quiz._id}`)}
+                >
+                  🧠 {quiz.title}
                 </button>
               </li>
             ))}

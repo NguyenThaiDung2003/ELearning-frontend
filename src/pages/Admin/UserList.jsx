@@ -34,8 +34,8 @@ const UserList = () => {
   );
 
   const handleSearchClick = () => {
-  setSearchKeyword(searchTerm);
-};
+    setSearchKeyword(searchTerm);
+  };
 
 
   const totalPages = Math.ceil(filteredUsers.length / itemsPerPage);
@@ -112,24 +112,23 @@ const UserList = () => {
   return (
     <div className="user-list-page">
 
-      <div className="ad-search-input-container">
-        <input className="ad-search-input"
-        type="text"
-        placeholder="Tìm người dùng..."
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-        onKeyDown={(e) => {
-          if (e.key === 'Enter') {
-            handleSearchClick();
-          }
-        }}
-      />
-      <button className="ad-search-button" onClick={handleSearchClick}>Tìm</button>
-      </div>
-      
-
       <div className="user-list-title">
         <h1>Danh sách người dùng</h1>
+      </div>
+      
+      <div className="ad-search-input-container">
+        <input className="ad-search-input"
+          type="text"
+          placeholder="Tìm người dùng..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') {
+              handleSearchClick();
+            }
+          }}
+        />
+        <button className="ad-search-button" onClick={handleSearchClick}>Tìm</button>
       </div>
 
       <table className="user-table">
@@ -153,10 +152,10 @@ const UserList = () => {
                   className="avatar"
                 />
               </td>
-              <td>{user.name || 'Chưa đặt tên'}</td>
-              <td>{user.userName}</td>
-              <td>{new Date(user.createdAt).toLocaleDateString()}</td>
-              <td>{user.role}</td>
+              <td data-label="Tên người dùng">{user.name || 'Chưa đặt tên'}</td>
+              <td data-label="Username">{user.userName}</td>
+              <td data-label="Ngày tham gia">{new Date(user.createdAt).toLocaleDateString()}</td>
+              <td data-label="Vai trò">{user.role}</td>
               <td>
                 <button className="user-list-button" onClick={() => handleEdit(user)}><FaEdit /></button>
                 <button className="user-list-button" onClick={() => handleDelete(user._id)}><FaTrash /></button>

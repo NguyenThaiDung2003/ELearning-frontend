@@ -115,7 +115,7 @@ const Header = () => {
                 </div>
                 <hr />
                 <Link to="/profile">Hồ sơ</Link>
-                <Link to="/courses">Khóa học của tôi</Link>
+
                 <button className="logout-btn" onClick={handleLogout}>Đăng xuất</button>
               </div>
             </div>

@@ -5,6 +5,7 @@ import {store} from "../redux/store";
 const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 
+
 export const loginUser = async (user, dispatch, navigate) => {
     dispatch(loginStart()); 
     try {
@@ -126,7 +127,7 @@ export const changePassword = async (data) => {
         const user = store.getState().auth.login?.currentUser;  
         if (!user)   throw new Error("User not logged in");
     
-        const res = await axios.patch(`${BASE_URL}/api/user/change-password`, data, {
+        const res = await axiosJWT.patch(`${BASE_URL}/api/user/change-password`, data, {
             headers: {
                 Authorization: `Bearer ${user.accessToken}`,  
             },
@@ -181,4 +182,38 @@ export const requestForgotPassword = async (email) => {
         withCredentials: true,
     });
     return res.data;
+};
+
+export const registerCourse = async (courseId) => {
+    try {
+            const user = store.getState().auth.login?.currentUser;  
+        if (!user)   throw new Error("User not logged in");
+        const res = await axiosJWT.post(
+            `${BASE_URL}/api/register-course/register`,
+            { courseId },
+            {
+                headers: {
+                    Authorization: `Bearer ${user.accessToken}`,
+                },
+                withCredentials: true,
+            }
+        );
+        alert("Đăng ký khóa học thành công!");
+        return res.data;
+    } catch (error) {
+        console.error("Lỗi đăng ký khóa học:", error.response?.data || error.message);
+        const status = error.response?.status;
+
+        if (status === 400) {
+            alert(error.response?.data?.message || "Yêu cầu không hợp lệ.");
+        } else if (status === 401) {
+            alert("Bạn chưa đăng nhập. Vui lòng đăng nhập để tiếp tục.");
+        } else if (status === 404) {
+            alert("Không tìm thấy khóa học.");
+        } else {
+            alert("Đăng ký khóa học thất bại! Lỗi không xác định.");
+        }
+
+        throw error; // Cho phép xử lý thêm bên ngoài nếu cần
+    }
 };

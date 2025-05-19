@@ -4,6 +4,9 @@ import 'react-toastify/dist/ReactToastify.css';
 import Header from '../../component/Header/Header';
 import Footer from '../../component/Footer/Footer';
 import './HomePage.css';
+import { registerCourse } from "../../api/apiRequest";
+import { useNavigate } from 'react-router-dom';
+import { fetchUserCourses } from '../../api/apiRequest';  // <-- import hàm fetchUserCourses
 
 const HomePage = () => {
   const [courses, setCourses] = useState([]);
@@ -12,9 +15,27 @@ const HomePage = () => {
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState('');
   const [loadingCourseId, setLoadingCourseId] = useState(null);
+  const navigate = useNavigate();
 
+  // Lấy danh sách khóa học đã đăng ký của user khi component mount
   useEffect(() => {
-    fetch('https://elearning-backend-2kn5.onrender.com/api/course/get-courses?page=1&limit=100')
+
+    const loadRegisteredCourses = async () => {
+      try {
+        const userCourses = await fetchUserCourses();
+        const registeredIds = new Set(userCourses.map(c => c._id));
+        setRegisteredCourses(registeredIds);
+      } catch (error) {
+        toast.error("Lỗi khi tải khóa học đã đăng ký!");
+      }
+    };
+    loadRegisteredCourses();
+  }, []);
+
+  // Lấy danh sách tất cả khóa học
+  useEffect(() => {
+    fetch('https://elearning-backend-2kn5.onrender.com/api/course/get-courses?limit=100')
+
       .then(res => res.json())
       .then(data => setCourses(data.courses))
       .catch(err => toast.error("Lỗi khi tải danh sách khóa học!"));
@@ -33,12 +54,11 @@ const HomePage = () => {
   const handleRegister = async (courseId) => {
     try {
       setLoadingCourseId(courseId);
-      const res = await fetch("fetch('https://elearning-backend-2kn5.onrender.com/api/course/get-courses?page=1&limit=100')");
-      const data = await res.json();
-      toast.success("Đăng ký thành công!");
+      await registerCourse(courseId);
       setRegisteredCourses(prev => new Set(prev).add(courseId));
-    } catch (err) {
-      toast.error("Lỗi khi gọi API đăng ký!");
+      navigate(`/course/${courseId}`);
+    } catch (error) {
+      // toast hoặc alert đã có trong registerCourse rồi, có thể không cần làm gì thêm
     } finally {
       setLoadingCourseId(null);
     }
@@ -53,12 +73,7 @@ const HomePage = () => {
         ? (filters.type === 'Miễn phí' ? course.price === 0 : course.price > 0)
         : true;
       return matchSearch && matchCategory && matchLevel && matchType;
-    })
-    .sort((a, b) => {
-      if (filters.sort === 'Mới nhất') {
-        return new Date(b.createdAt) - new Date(a.createdAt);
-      }
-      return 0;
+
     });
 
   const coursesPerPage = 8;
@@ -103,10 +118,6 @@ const HomePage = () => {
               <option value="">Hình thức</option>
               <option>Miễn phí</option>
               <option>Trả phí</option>
-            </select>
-            <select name="sort" onChange={handleFilterChange}>
-              <option value="">Sắp xếp theo</option>
-              <option>Mới nhất</option>
             </select>
           </div>
         </div>
